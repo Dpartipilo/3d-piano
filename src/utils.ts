@@ -1,5 +1,4 @@
-export const playAudio = (e: any, musicNote: string) => {
-  e.stopPropagation();
+export const playAudio = (musicNote: string) => {
   if (!musicNote) return;
   const audio = new Audio(
     `http://carolinegabriel.com/demo/js-keyboard/sounds/0${musicNote}.wav`
