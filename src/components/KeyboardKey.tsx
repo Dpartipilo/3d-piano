@@ -16,25 +16,7 @@ export const KeyboardKey = (props: KeyboardKeyProps) => {
   const { musicNote, isBlackKey, name } = props;
   const pressed = useKeyboardControls((state) => state[name]);
 
-  console.log(pressed);
-
-  // useFrame(() => {
-  //   // Fetch fresh data from store
-  //   const pressed = get().backward;
-  //   console.log(pressed);
-  // });
   const meshRef = useRef<THREE.Mesh>(null!);
-
-  // const [sub, get] = useKeyboardControls();
-
-  // useEffect(() => {
-  //   return sub(
-  //     (state: any) => state.C4,
-  //     (pressed: any) => {
-  //       console.log("C4", pressed);
-  //     }
-  //   );
-  // }, []);
 
   useEffect(() => {
     const key = meshRef.current;
@@ -46,19 +28,9 @@ export const KeyboardKey = (props: KeyboardKeyProps) => {
     }
   }, [pressed, playing, musicNote]);
 
-  // useEffect(() => {
-  //   const key = meshRef.current;
-  //   if (playing) {
-  //     key.rotation.x = 0.1;
-  //   } else {
-  //     key.rotation.x = 0;
-  //   }
-  // }, [playing]);
-
   const handleOnPoinerDown = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     setPlaying(true);
-    // playAudio(musicNote);
   };
 
   const handleOnPoinerUp = (e: ThreeEvent<MouseEvent>) => {
