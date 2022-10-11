@@ -1,10 +1,17 @@
 import * as THREE from "three";
-import React, { useEffect, useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import React, { Suspense, useEffect, useRef, useState } from "react";
+import {
+  Camera,
+  Canvas,
+  RootState,
+  useFrame,
+  useLoader,
+  useThree,
+} from "@react-three/fiber";
 import "./App.css";
 import { KeyboardControls, OrbitControls } from "@react-three/drei";
 
-import { KeyboardKey } from "./components/KeyboardKey";
+import { PianoKey } from "./components/PianoKey";
 import { Floor } from "./components/Floor";
 
 const keyboardKeys = [
@@ -99,41 +106,78 @@ const keyboardKeys = [
     position: [6.6, 1, 0],
     keys: ["i", "I"],
   },
+  {
+    id: "53",
+    name: "C#5",
+    isBlackKey: true,
+    position: [7.1, 1.5, -1.4],
+    keys: ["f", "F"],
+  },
+  {
+    id: "54",
+    name: "D5",
+    isBlackKey: false,
+    position: [7.7, 1, 0],
+    keys: ["v", "V"],
+  },
+  {
+    id: "55",
+    name: "D#5",
+    isBlackKey: true,
+    position: [8.4, 1.5, -1.4],
+    keys: ["g", "G"],
+  },
+  {
+    id: "56",
+    name: "E5",
+    isBlackKey: false,
+    position: [8.8, 1, 0],
+    keys: ["b", "B"],
+  },
 ];
 
 const keyboardControlKeys = keyboardKeys.map((keyboardKey) => {
   return { name: keyboardKey.name, keys: keyboardKey.keys };
 });
-console.log(keyboardControlKeys);
 
 function App() {
   return (
     <div className="App">
       <Canvas
-        camera={{ position: [0, 7, 10], near: 0.1 }}
+        camera={{ position: [0, 10, 10], near: 0.1 }}
         onCreated={({ scene }) => {
           scene.background = new THREE.Color(0x000000);
+          // scene.fog = new THREE.Fog("#000000", 10, 30);
         }}
       >
+        {/********** Lights ************/}
         <ambientLight args={[0xffffff, 0.5]} />
-        <spotLight args={[0xffffff, 1, 10]} position={[0, 5, 0]} />
-        {/* <Floor /> */}
-        <axesHelper args={[10]} />
+        <spotLight args={[0xffffff, 1, 10]} position={[0, 10, 0]} />
+        <Suspense fallback={null}>
+          {/********** Helpers ************/}
+          <axesHelper args={[10]} />
 
-        <KeyboardControls map={keyboardControlKeys}>
-          <group name="Octave 4" position={[0, 3, 0]}>
-            {keyboardKeys.map(({ isBlackKey, id, position, name }) => (
-              <KeyboardKey
-                key={name}
-                isBlackKey={isBlackKey}
-                musicNote={id}
-                position={position}
-                name={name}
-              />
-            ))}
-          </group>
-        </KeyboardControls>
-        <OrbitControls makeDefault />
+          {/********** Floor ************/}
+          <Floor />
+
+          {/********** Keyboard ************/}
+          <KeyboardControls map={keyboardControlKeys}>
+            <group name="Octave 4" position={[-5, 3, 0]}>
+              {keyboardKeys.map(({ isBlackKey, id, position, name }) => (
+                <PianoKey
+                  key={name}
+                  isBlackKey={isBlackKey}
+                  musicNote={id}
+                  position={position}
+                  name={name}
+                />
+              ))}
+            </group>
+          </KeyboardControls>
+
+          {/********** Camera Controls ************/}
+          <OrbitControls makeDefault />
+        </Suspense>
       </Canvas>
     </div>
   );
