@@ -1,17 +1,44 @@
 import * as THREE from "three";
 import React, { useEffect, useRef, useState } from "react";
-import { ThreeEvent, useFrame } from "@react-three/fiber";
+import { ThreeEvent, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { playAudio } from "../utils";
 import { useKeyboardControls } from "@react-three/drei";
 
-type KeyboardKeyProps = {
+type PianoKeyProps = {
   musicNote: string;
   position?: any;
   isBlackKey: boolean;
   name: string;
 };
 
-export const KeyboardKey = (props: KeyboardKeyProps) => {
+// type SoundProps = {
+//   url?: string;
+// };
+
+// const Sound = (props: SoundProps) => {
+//   const sound = useRef<THREE.PositionalAudio>(null);
+//   const { camera } = useThree<any>();
+//   const [listener] = useState(() => new THREE.AudioListener());
+//   const buffer = useLoader<AudioBuffer, string>(
+//     THREE.AudioLoader,
+//     "piano-keys/key01.mp3"
+//   );
+
+//   useEffect(() => {
+//     sound?.current?.setBuffer(buffer);
+//     sound?.current?.setRefDistance(1);
+//     sound?.current?.setLoop(true);
+//     sound?.current?.play();
+
+//     camera.add(listener);
+//     console.log(sound);
+//     return () => camera.remove(listener);
+//   }, []);
+
+//   return <positionalAudio ref={sound} args={[listener]} />;
+// };
+
+export const PianoKey = (props: PianoKeyProps) => {
   const [playing, setPlaying] = useState(false);
   const { musicNote, isBlackKey, name } = props;
   const pressed = useKeyboardControls((state) => state[name]);
@@ -58,7 +85,11 @@ export const KeyboardKey = (props: KeyboardKeyProps) => {
       }}
     >
       <boxGeometry args={isBlackKey ? [1, 1.9, 5] : [1, 1, 8]}></boxGeometry>
-      <meshStandardMaterial color={isBlackKey ? "black" : "white"} />
+      {isBlackKey ? (
+        <meshStandardMaterial color={"black"} />
+      ) : (
+        <meshStandardMaterial color={"white"} />
+      )}
     </mesh>
   );
 };
