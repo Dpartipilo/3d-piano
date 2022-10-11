@@ -162,7 +162,7 @@ function App() {
 
           {/********** Keyboard ************/}
           <KeyboardControls map={keyboardControlKeys}>
-            <group name="Octave 4" position={[-5, 3, 0]}>
+            <group name="Octave 4" position={[-4, 3, 0]}>
               {keyboardKeys.map(({ isBlackKey, id, position, name }) => (
                 <PianoKey
                   key={name}
