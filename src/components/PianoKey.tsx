@@ -1,9 +1,9 @@
 import * as THREE from "three";
 import React, { useEffect, useRef, useState } from "react";
-import { ThreeEvent, useFrame, useLoader, useThree } from "@react-three/fiber";
-import { playAudio } from "../utils";
+import { ThreeEvent, useLoader } from "@react-three/fiber";
 import { useKeyboardControls } from "@react-three/drei";
 import { useControls } from "leva";
+import { TextureLoader } from "three/src/loaders/TextureLoader";
 
 // type SoundProps = {
 //   url?: string;
@@ -53,10 +53,16 @@ type PlayOptionsProps = {
 };
 
 export const PianoKey = (props: PianoKeyProps) => {
-  const [playing, setPlaying] = useState(false);
   const { isBlackKey, name, playNote, stopNote } = props;
-  const pressed = useKeyboardControls((state) => state[name]);
+
+  const [playing, setPlaying] = useState(false);
   const [playOptions, setPlayOptions] = useState<PlayOptionsProps>({});
+  const pressed = useKeyboardControls((state) => state[name]);
+
+  // const [whiteKeyMatcap, blackKeyMatcap] = useLoader(TextureLoader, [
+  //   "textures/matcaps/3.png",
+  //   "textures/matcaps/4.png",
+  // ]);
 
   // ********** Leva GUI controls **********
   const { gain, attack, decay, sustain, release, duration } = useControls(
@@ -122,9 +128,9 @@ export const PianoKey = (props: PianoKeyProps) => {
     >
       <boxGeometry args={isBlackKey ? [1, 1.9, 5] : [1, 1, 8]}></boxGeometry>
       {isBlackKey ? (
-        <meshStandardMaterial color={"black"} />
+        <meshStandardMaterial color={"black"} metalness={8} roughness={0.2} />
       ) : (
-        <meshStandardMaterial color={"white"} />
+        <meshStandardMaterial color={"#878787"} metalness={5} roughness={0.8} />
       )}
     </mesh>
   );

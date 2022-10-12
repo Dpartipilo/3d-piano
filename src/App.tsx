@@ -182,7 +182,7 @@ function App() {
       >
         {/********** Lights ************/}
         <ambientLight args={[0xffffff, 0.2]} />
-        <spotLight args={[0xffffff, 1, 15, 1, 2]} position={[0, 11, 0]} />
+        <spotLight args={[0xffffff, 0.6, 15, 1, 2]} position={[0, 11, 0]} />
         <Suspense fallback={null}>
           {/********** Helpers ************/}
           <axesHelper args={[10]} />
