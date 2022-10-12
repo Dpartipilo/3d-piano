@@ -13,14 +13,36 @@ import { KeyboardControls, OrbitControls } from "@react-three/drei";
 
 import { PianoKey } from "./components/PianoKey";
 import { Floor } from "./components/Floor";
+import SoundfontProvider from "./Provider/SoundfontProvider";
 
 const keyboardKeys = [
+  {
+    id: "37",
+    name: "A3",
+    isBlackKey: false,
+    position: [-3.3, 1, 0],
+    keys: [],
+  },
+  {
+    id: "38",
+    name: "A#3",
+    isBlackKey: true,
+    position: [-2.7, 1.5, -1.4],
+    keys: [],
+  },
+  {
+    id: "39",
+    name: "B3",
+    isBlackKey: false,
+    position: [-2.2, 1, 0],
+    keys: [],
+  },
   {
     id: "40",
     name: "C4",
     isBlackKey: false,
     position: [-1.1, 1, 0],
-    keys: ["q", "Q"],
+    keys: ["q"],
   },
   {
     id: "41",
@@ -94,7 +116,7 @@ const keyboardKeys = [
   },
   {
     id: "51",
-    name: "B",
+    name: "B4",
     isBlackKey: false,
     position: [5.5, 1, 0],
     keys: ["u", "U"],
@@ -140,6 +162,14 @@ const keyboardControlKeys = keyboardKeys.map((keyboardKey) => {
   return { name: keyboardKey.name, keys: keyboardKey.keys };
 });
 
+const audioContext = new AudioContext();
+
+type SoundfontProviderProps = {
+  isLoading: any;
+  playNote: any;
+  stopNote: any;
+};
+
 function App() {
   return (
     <div className="App">
@@ -151,8 +181,8 @@ function App() {
         }}
       >
         {/********** Lights ************/}
-        <ambientLight args={[0xffffff, 0.5]} />
-        <spotLight args={[0xffffff, 1, 10]} position={[0, 10, 0]} />
+        <ambientLight args={[0xffffff, 0.2]} />
+        <spotLight args={[0xffffff, 1, 15, 1, 2]} position={[0, 11, 0]} />
         <Suspense fallback={null}>
           {/********** Helpers ************/}
           <axesHelper args={[10]} />
@@ -161,19 +191,33 @@ function App() {
           <Floor />
 
           {/********** Keyboard ************/}
-          <KeyboardControls map={keyboardControlKeys}>
-            <group name="Octave 4" position={[-4, 3, 0]}>
-              {keyboardKeys.map(({ isBlackKey, id, position, name }) => (
-                <PianoKey
-                  key={name}
-                  isBlackKey={isBlackKey}
-                  musicNote={id}
-                  position={position}
-                  name={name}
-                />
-              ))}
-            </group>
-          </KeyboardControls>
+
+          <SoundfontProvider
+            instrumentName="acoustic_grand_piano"
+            audioContext={audioContext}
+            hostname={"https://d1pzp51pvbm36p.cloudfront.net"}
+            render={({
+              isLoading,
+              playNote,
+              stopNote,
+            }: SoundfontProviderProps) => (
+              <KeyboardControls map={keyboardControlKeys}>
+                <group name="Octave 4" position={[-4, 3, 0]}>
+                  {keyboardKeys.map(({ isBlackKey, id, position, name }, i) => (
+                    <PianoKey
+                      key={name}
+                      isBlackKey={isBlackKey}
+                      musicNote={id}
+                      position={position}
+                      name={name}
+                      playNote={playNote}
+                      stopNote={stopNote}
+                    />
+                  ))}
+                </group>
+              </KeyboardControls>
+            )}
+          />
 
           {/********** Camera Controls ************/}
           <OrbitControls makeDefault />
