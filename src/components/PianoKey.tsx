@@ -1,9 +1,8 @@
 import * as THREE from "three";
 import React, { useEffect, useRef, useState } from "react";
-import { ThreeEvent, useLoader } from "@react-three/fiber";
+import { ThreeEvent } from "@react-three/fiber";
 import { useKeyboardControls } from "@react-three/drei";
 import { useControls } from "leva";
-import { TextureLoader } from "three/src/loaders/TextureLoader";
 
 // type SoundProps = {
 //   url?: string;

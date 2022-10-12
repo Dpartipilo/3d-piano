@@ -1,19 +1,12 @@
 import * as THREE from "three";
-import React, { Suspense, useEffect, useRef, useState } from "react";
-import {
-  Camera,
-  Canvas,
-  RootState,
-  useFrame,
-  useLoader,
-  useThree,
-} from "@react-three/fiber";
+import React, { Suspense } from "react";
+import { Canvas } from "@react-three/fiber";
 import "./App.css";
 import { KeyboardControls, OrbitControls } from "@react-three/drei";
 
 import { PianoKey } from "./components/PianoKey";
 import { Floor } from "./components/Floor";
-import SoundfontProvider from "./Provider/SoundfontProvider";
+import SoundfontProvider from "./providers/SoundfontProvider";
 
 const keyboardKeys = [
   {
