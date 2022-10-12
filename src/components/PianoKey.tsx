@@ -3,13 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { ThreeEvent, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { playAudio } from "../utils";
 import { useKeyboardControls } from "@react-three/drei";
-
-type PianoKeyProps = {
-  musicNote: string;
-  position?: any;
-  isBlackKey: boolean;
-  name: string;
-};
+import { useControls } from "leva";
 
 // type SoundProps = {
 //   url?: string;
@@ -38,22 +32,64 @@ type PianoKeyProps = {
 //   return <positionalAudio ref={sound} args={[listener]} />;
 // };
 
+type PianoKeyProps = {
+  musicNote: string;
+  position?: any;
+  isBlackKey: boolean;
+  name: string;
+  playNote: (midiNote: string, options: PlayOptionsProps) => void;
+  stopNote: (midiNote: string) => void;
+};
+
+type PlayOptionsProps = {
+  gain?: number; //float between 0 to 1
+  attack?: number; //the attack time of the amplitude envelope
+  decay?: number; //the decay time of the amplitude envelope
+  sustain?: number; //the sustain gain value of the amplitude envelope
+  release?: number; //the release time of the amplitude envelope
+  adsr?: number[]; //an array of [attack, decay, sustain, release]. Overrides other parameters.
+  duration?: number; //set the playing duration in seconds of the buffer(s)
+  loop?: boolean; //set to true to loop the audio buffer
+};
+
 export const PianoKey = (props: PianoKeyProps) => {
   const [playing, setPlaying] = useState(false);
-  const { musicNote, isBlackKey, name } = props;
+  const { isBlackKey, name, playNote, stopNote } = props;
   const pressed = useKeyboardControls((state) => state[name]);
+  const [playOptions, setPlayOptions] = useState<PlayOptionsProps>({});
 
+  // ********** Leva GUI controls **********
+  const { gain, attack, decay, sustain, release, duration } = useControls(
+    "Sound properties",
+    {
+      gain: { value: 2, min: 0, max: 10, step: 0.1 },
+      attack: { value: 0, min: 0, max: 5, step: 0.1 },
+      decay: { value: 0, min: 0, max: 5, step: 0.1 },
+      sustain: { value: 0, min: 0, max: 5, step: 0.1 },
+      release: { value: 0.7, min: 0, max: 5, step: 0.1 },
+      duration: { value: 0, min: 0, max: 5, step: 0.1 },
+    }
+  );
+
+  // ********** Refs **********
   const meshRef = useRef<THREE.Mesh>(null!);
+
+  useEffect(() => {
+    setPlayOptions({ gain, attack, decay, sustain, release });
+  }, [gain, attack, decay, sustain, release, duration]);
 
   useEffect(() => {
     const key = meshRef.current;
     if (pressed || playing) {
       key.rotation.x = 0.1;
-      playAudio(musicNote);
+      playNote(name, playOptions);
     } else {
+      stopNote(name);
       key.rotation.x = 0;
     }
-  }, [pressed, playing, musicNote]);
+  }, [pressed, playing, name, playOptions, playNote, stopNote]);
+
+  // ********** Handlers **********
 
   const handleOnPoinerDown = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
