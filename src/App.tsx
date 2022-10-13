@@ -170,10 +170,10 @@ type SoundfontProviderProps = {
 };
 
 function App() {
-  const envMap = useCubeTexture(
-    ["px.png", "nx.png", "py.png", "ny.png", "pz.png", "nz.png"],
-    { path: "textures/environmentMaps/space/" }
-  );
+  // const envMap = useCubeTexture(
+  //   ["px.png", "nx.png", "py.png", "ny.png", "pz.png", "nz.png"],
+  //   { path: "textures/environmentMaps/space/" }
+  // );
 
   const { x, y, z, angle, intensity, distance, penumbra } = useControls(
     "Light properties",
@@ -182,7 +182,7 @@ function App() {
       y: { value: 10, min: 0, max: 15, step: 0.1 },
       z: { value: 0, min: -10, max: 10, step: 0.1 },
       angle: { value: 0.5, min: 0, max: 1, step: 0.01 },
-      intensity: { value: 0.6, min: 0, max: 3, step: 0.01 },
+      intensity: { value: 1.5, min: 0, max: 3, step: 0.01 },
       distance: { value: 15, min: 0, max: 20, step: 0.01 },
       penumbra: { value: 0.5, min: 0, max: 1, step: 0.01 },
     }

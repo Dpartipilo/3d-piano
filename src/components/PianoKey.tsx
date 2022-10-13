@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import React, { useEffect, useRef, useState } from "react";
 import { ThreeEvent } from "@react-three/fiber";
-import { useKeyboardControls } from "@react-three/drei";
+import { useCubeTexture, useKeyboardControls } from "@react-three/drei";
 import { useControls } from "leva";
 
 // type SoundProps = {
@@ -62,6 +62,11 @@ export const PianoKey = (props: PianoKeyProps) => {
   //   "textures/matcaps/3.png",
   //   "textures/matcaps/4.png",
   // ]);
+
+  // const envMap = useCubeTexture(
+  //   ["px.png", "nx.png", "py.png", "ny.png", "pz.png", "nz.png"],
+  //   { path: "textures/environmentMaps/space/" }
+  // );
 
   // ********** Leva GUI controls **********
   const { gain, attack, decay, sustain, release, duration } = useControls(
@@ -127,9 +132,19 @@ export const PianoKey = (props: PianoKeyProps) => {
     >
       <boxGeometry args={isBlackKey ? [1, 1.9, 5] : [1, 1, 8]}></boxGeometry>
       {isBlackKey ? (
-        <meshStandardMaterial color={"black"} metalness={8} roughness={0.2} />
+        <meshStandardMaterial
+          // envMap={envMap}
+          color={"black"}
+          metalness={2}
+          roughness={0.1}
+        />
       ) : (
-        <meshStandardMaterial color={"#878787"} metalness={5} roughness={0.8} />
+        <meshStandardMaterial
+          // envMap={envMap}
+          color={"#878787"}
+          metalness={0.2}
+          roughness={0.1}
+        />
       )}
     </mesh>
   );
