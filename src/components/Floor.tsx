@@ -38,7 +38,7 @@ export const Floor = (props: FloorProps) => {
 
   return (
     <mesh {...props} ref={meshRef} rotation-x={-0.5 * Math.PI}>
-      <planeGeometry args={[30, 30]} />
+      <planeGeometry args={[50, 30]} />
       <meshStandardMaterial
         map={colorMap}
         displacementScale={0.2}

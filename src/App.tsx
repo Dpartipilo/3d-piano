@@ -1,12 +1,18 @@
 import * as THREE from "three";
-import React, { Suspense } from "react";
-import { Canvas } from "@react-three/fiber";
+import React, { Suspense, useRef } from "react";
+import { Canvas, useLoader } from "@react-three/fiber";
 import "./App.css";
-import { KeyboardControls, OrbitControls } from "@react-three/drei";
+import {
+  KeyboardControls,
+  OrbitControls,
+  useCubeTexture,
+} from "@react-three/drei";
 
 import { PianoKey } from "./components/PianoKey";
 import { Floor } from "./components/Floor";
 import SoundfontProvider from "./providers/SoundfontProvider";
+import { CubeTextureLoader } from "three/src/loaders/CubeTextureLoader";
+import { useControls } from "leva";
 
 const keyboardKeys = [
   {
@@ -164,18 +170,42 @@ type SoundfontProviderProps = {
 };
 
 function App() {
+  const envMap = useCubeTexture(
+    ["px.png", "nx.png", "py.png", "ny.png", "pz.png", "nz.png"],
+    { path: "textures/environmentMaps/space/" }
+  );
+
+  const { x, y, z, angle, intensity, distance, penumbra } = useControls(
+    "Light properties",
+    {
+      x: { value: 0, min: -15, max: 15, step: 0.1 },
+      y: { value: 10, min: 0, max: 15, step: 0.1 },
+      z: { value: 0, min: -10, max: 10, step: 0.1 },
+      angle: { value: 0.5, min: 0, max: 1, step: 0.01 },
+      intensity: { value: 0.6, min: 0, max: 3, step: 0.01 },
+      distance: { value: 15, min: 0, max: 20, step: 0.01 },
+      penumbra: { value: 0.5, min: 0, max: 1, step: 0.01 },
+    }
+  );
+
+  const pianoRef = useRef(null);
+  console.log(envMap);
   return (
     <div className="App">
       <Canvas
         camera={{ position: [0, 10, 10], near: 0.1 }}
         onCreated={({ scene }) => {
-          scene.background = new THREE.Color(0x000000);
+          scene.background = new THREE.Color("black");
           // scene.fog = new THREE.Fog("#000000", 10, 30);
         }}
       >
         {/********** Lights ************/}
-        <ambientLight args={[0xffffff, 0.2]} />
-        <spotLight args={[0xffffff, 0.6, 15, 1, 2]} position={[0, 11, 0]} />
+        <ambientLight args={[0xffffff, 0.3]} />
+        <spotLight
+          args={[0xffffff, intensity, distance, Math.PI * angle, penumbra]}
+          target={pianoRef.current ? pianoRef.current : undefined}
+          position={[x, y, z]}
+        />
         <Suspense fallback={null}>
           {/********** Helpers ************/}
           <axesHelper args={[10]} />
@@ -195,7 +225,7 @@ function App() {
               stopNote,
             }: SoundfontProviderProps) => (
               <KeyboardControls map={keyboardControlKeys}>
-                <group name="Octave 4" position={[-4, 3, 0]}>
+                <group ref={pianoRef} name="Piano" position={[-4, 3, 0]}>
                   {keyboardKeys.map(({ isBlackKey, id, position, name }, i) => (
                     <PianoKey
                       key={name}
