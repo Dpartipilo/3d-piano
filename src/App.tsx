@@ -189,7 +189,6 @@ function App() {
   );
 
   const pianoRef = useRef(null);
-  console.log(envMap);
   return (
     <div className="App">
       <Canvas
