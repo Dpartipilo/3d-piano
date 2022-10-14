@@ -72,9 +72,6 @@ export const PianoKey = (props: PianoKeyProps) => {
     }
   );
 
-  // ********** Refs **********
-  const meshRef = useRef<THREE.Mesh>(null!);
-
   useEffect(() => {
     setPlayOptions({
       gain,
@@ -84,6 +81,9 @@ export const PianoKey = (props: PianoKeyProps) => {
       release: sustainKey ? 10 : release,
     });
   }, [gain, attack, decay, sustain, release, duration, sustainKey]);
+
+  // ********** Refs **********
+  const meshRef = useRef<THREE.Mesh>(null!);
 
   useEffect(() => {
     const key = meshRef.current;
@@ -97,20 +97,26 @@ export const PianoKey = (props: PianoKeyProps) => {
   }, [pressed, playing, name, playOptions, playNote, stopNote]);
 
   // ********** Handlers **********
-
+  const key = meshRef.current;
   const handleOnPoinerDown = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
-    setPlaying(true);
+    playNote(name, playOptions);
+    key.rotation.x = 0.1;
+    // setPlaying(true);
   };
 
   const handleOnPoinerUp = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
-    setPlaying(false);
+    key.rotation.x = 0;
+    stopNote(name);
+    // setPlaying(false);
   };
 
   const handleOnPoinerOut = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
-    setPlaying(false);
+    key.rotation.x = 0;
+    stopNote(name);
+    // setPlaying(false);
   };
 
   return (
