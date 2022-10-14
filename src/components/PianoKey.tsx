@@ -57,16 +57,7 @@ export const PianoKey = (props: PianoKeyProps) => {
   const [playing, setPlaying] = useState(false);
   const [playOptions, setPlayOptions] = useState<PlayOptionsProps>({});
   const pressed = useKeyboardControls((state) => state[name]);
-
-  // const [whiteKeyMatcap, blackKeyMatcap] = useLoader(TextureLoader, [
-  //   "textures/matcaps/3.png",
-  //   "textures/matcaps/4.png",
-  // ]);
-
-  // const envMap = useCubeTexture(
-  //   ["px.png", "nx.png", "py.png", "ny.png", "pz.png", "nz.png"],
-  //   { path: "textures/environmentMaps/space/" }
-  // );
+  const sustainKey = useKeyboardControls((state) => state.Sustain);
 
   // ********** Leva GUI controls **********
   const { gain, attack, decay, sustain, release, duration } = useControls(
@@ -85,8 +76,14 @@ export const PianoKey = (props: PianoKeyProps) => {
   const meshRef = useRef<THREE.Mesh>(null!);
 
   useEffect(() => {
-    setPlayOptions({ gain, attack, decay, sustain, release });
-  }, [gain, attack, decay, sustain, release, duration]);
+    setPlayOptions({
+      gain,
+      attack,
+      decay,
+      sustain,
+      release: sustainKey ? 10 : release,
+    });
+  }, [gain, attack, decay, sustain, release, duration, sustainKey]);
 
   useEffect(() => {
     const key = meshRef.current;
@@ -134,14 +131,14 @@ export const PianoKey = (props: PianoKeyProps) => {
       {isBlackKey ? (
         <meshStandardMaterial
           // envMap={envMap}
-          color={"black"}
-          metalness={2}
+          color={"#1f1f1e"}
+          metalness={1}
           roughness={0.1}
         />
       ) : (
         <meshStandardMaterial
           // envMap={envMap}
-          color={"#878787"}
+          color={"#e0e0e0"}
           metalness={0.2}
           roughness={0.1}
         />

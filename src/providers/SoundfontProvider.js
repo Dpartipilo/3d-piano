@@ -10,6 +10,7 @@ class SoundfontProvider extends React.Component {
     hostname: PropTypes.string.isRequired,
     format: PropTypes.oneOf(["mp3", "ogg"]),
     soundfont: PropTypes.oneOf(["MusyngKite", "FluidR3_GM"]),
+    notes: PropTypes.array,
     audioContext: PropTypes.instanceOf(window.AudioContext),
     render: PropTypes.func,
   };
@@ -46,6 +47,7 @@ class SoundfontProvider extends React.Component {
     Soundfont.instrument(this.props.audioContext, instrumentName, {
       format: this.props.format,
       soundfont: this.props.soundfont,
+      notes: this.props.notes,
       nameToUrl: (name, soundfont, format) => {
         return `${this.props.hostname}/${soundfont}/${name}-${format}.js`;
       },

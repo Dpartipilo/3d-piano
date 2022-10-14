@@ -1,20 +1,80 @@
 import * as THREE from "three";
 import React, { Suspense, useRef } from "react";
-import { Canvas, useLoader } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import "./App.css";
-import {
-  KeyboardControls,
-  OrbitControls,
-  useCubeTexture,
-} from "@react-three/drei";
+import { KeyboardControls, OrbitControls } from "@react-three/drei";
 
 import { PianoKey } from "./components/PianoKey";
 import { Floor } from "./components/Floor";
-import SoundfontProvider from "./providers/SoundfontProvider";
-import { CubeTextureLoader } from "three/src/loaders/CubeTextureLoader";
 import { useControls } from "leva";
 
+import SoundfontProvider from "./providers/SoundfontProvider";
+import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
+
 const keyboardKeys = [
+  {
+    id: "29",
+    name: "C3",
+    isBlackKey: false,
+    position: [-8.8, 1, 0],
+    keys: [],
+  },
+  {
+    id: "30",
+    name: "C#3",
+    isBlackKey: true,
+    position: [-8.1, 1.5, -1.4],
+    keys: [],
+  },
+  {
+    id: "31",
+    name: "D3",
+    isBlackKey: false,
+    position: [-7.7, 1, 0],
+    keys: [],
+  },
+  {
+    id: "31",
+    name: "D#3",
+    isBlackKey: true,
+    position: [-7, 1.5, -1.4],
+    keys: [],
+  },
+  {
+    id: "32",
+    name: "E3",
+    isBlackKey: false,
+    position: [-6.6, 1, 0],
+    keys: [],
+  },
+  {
+    id: "33",
+    name: "F3",
+    isBlackKey: false,
+    position: [-5.5, 1, 0],
+    keys: [],
+  },
+  {
+    id: "34",
+    name: "F#3",
+    isBlackKey: true,
+    position: [-5.1, 1.5, -1.4],
+    keys: [],
+  },
+  {
+    id: "35",
+    name: "G3",
+    isBlackKey: false,
+    position: [-4.4, 1, 0],
+    keys: [],
+  },
+  {
+    id: "36",
+    name: "G#3",
+    isBlackKey: true,
+    position: [-3.9, 1.5, -1.4],
+    keys: [],
+  },
   {
     id: "37",
     name: "A3",
@@ -132,34 +192,30 @@ const keyboardKeys = [
     name: "C#5",
     isBlackKey: true,
     position: [7.1, 1.5, -1.4],
-    keys: ["f", "F"],
+    keys: ["9"],
   },
   {
     id: "54",
     name: "D5",
     isBlackKey: false,
     position: [7.7, 1, 0],
-    keys: ["v", "V"],
+    keys: ["o"],
   },
   {
     id: "55",
     name: "D#5",
     isBlackKey: true,
     position: [8.4, 1.5, -1.4],
-    keys: ["g", "G"],
+    keys: ["0"],
   },
   {
     id: "56",
     name: "E5",
     isBlackKey: false,
     position: [8.8, 1, 0],
-    keys: ["b", "B"],
+    keys: ["p"],
   },
 ];
-
-const keyboardControlKeys = keyboardKeys.map((keyboardKey) => {
-  return { name: keyboardKey.name, keys: keyboardKey.keys };
-});
 
 const audioContext = new AudioContext();
 
@@ -169,12 +225,15 @@ type SoundfontProviderProps = {
   stopNote: any;
 };
 
-function App() {
-  // const envMap = useCubeTexture(
-  //   ["px.png", "nx.png", "py.png", "ny.png", "pz.png", "nz.png"],
-  //   { path: "textures/environmentMaps/space/" }
-  // );
+const keyboardControlKeys = keyboardKeys.map((keyboardKey) => {
+  return { name: keyboardKey.name, keys: keyboardKey.keys };
+});
 
+const notes = keyboardKeys.map((keyboardKey) => {
+  return keyboardKey.name;
+});
+
+function App() {
   const { x, y, z, angle, intensity, distance, penumbra } = useControls(
     "Light properties",
     {
@@ -189,13 +248,19 @@ function App() {
   );
 
   const pianoRef = useRef(null);
+
   return (
     <div className="App">
       <Canvas
-        camera={{ position: [0, 10, 10], near: 0.1 }}
+        camera={{
+          position: [-14, 20, 18],
+          near: 0.1,
+          fov: 45,
+          far: 250,
+        }}
         onCreated={({ scene }) => {
           scene.background = new THREE.Color("black");
-          // scene.fog = new THREE.Fog("#000000", 10, 30);
+          scene.fog = new THREE.Fog("#000000", 1, 240);
         }}
       >
         {/********** Lights ************/}
@@ -217,14 +282,20 @@ function App() {
           <SoundfontProvider
             instrumentName="acoustic_grand_piano"
             audioContext={audioContext}
+            notes={notes}
             hostname={"https://d1pzp51pvbm36p.cloudfront.net"}
             render={({
               isLoading,
               playNote,
               stopNote,
             }: SoundfontProviderProps) => (
-              <KeyboardControls map={keyboardControlKeys}>
-                <group ref={pianoRef} name="Piano" position={[-4, 3, 0]}>
+              <KeyboardControls
+                map={[
+                  ...keyboardControlKeys,
+                  { name: "Sustain", keys: ["Space"] },
+                ]}
+              >
+                <group ref={pianoRef} name="Piano" position={[0, 3, 0]}>
                   {keyboardKeys.map(({ isBlackKey, id, position, name }, i) => (
                     <PianoKey
                       key={name}
