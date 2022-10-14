@@ -6,7 +6,7 @@ import { OrbitControls } from "@react-three/drei";
 
 import { Piano } from "./components/Piano";
 import { Floor } from "./components/Floor";
-import { useControls } from "leva";
+import { useControls, Leva } from "leva";
 
 function App() {
   const { x, y, z, angle, intensity, distance, penumbra } = useControls(
@@ -24,6 +24,7 @@ function App() {
 
   return (
     <div className="App">
+      <Leva collapsed />
       <Canvas
         shadows
         camera={{
