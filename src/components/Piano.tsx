@@ -2,6 +2,8 @@ import React from "react";
 import { KeyboardControls } from "@react-three/drei";
 import { PianoKey } from "./PianoKey";
 import SoundfontProvider from "../providers/SoundfontProvider";
+import { useControls } from "leva";
+import { instrumentsList } from "../instrumentsList";
 
 const keyboardKeys = [
   {
@@ -226,9 +228,18 @@ const keyboardControlKeys = keyboardKeys.map((keyboardKey) => {
 // });
 
 export const Piano = (props: any) => {
+  const { instrument } = useControls("Instrument", {
+    instrument: {
+      value: "acoustic_grand_piano",
+      options: instrumentsList,
+    },
+  });
+
+  console.log(instrument);
+
   return (
     <SoundfontProvider
-      instrumentName="acoustic_grand_piano"
+      instrumentName={instrument}
       audioContext={audioContext}
       hostname={"https://d1pzp51pvbm36p.cloudfront.net"}
       render={({ isLoading, playNote, stopNote }: SoundfontProviderProps) => (
