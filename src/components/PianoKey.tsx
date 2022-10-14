@@ -54,7 +54,6 @@ type PlayOptionsProps = {
 export const PianoKey = (props: PianoKeyProps) => {
   const { isBlackKey, name, playNote, stopNote } = props;
 
-  const [playing, setPlaying] = useState(false);
   const [playOptions, setPlayOptions] = useState<PlayOptionsProps>({});
   const pressed = useKeyboardControls((state) => state[name]);
   const sustainKey = useKeyboardControls((state) => state.Sustain);
@@ -87,34 +86,33 @@ export const PianoKey = (props: PianoKeyProps) => {
 
   useEffect(() => {
     const key = meshRef.current;
-    if (pressed || playing) {
+    if (pressed) {
       key.rotation.x = 0.1;
       playNote(name, playOptions);
     } else {
       stopNote(name);
       key.rotation.x = 0;
     }
-  }, [pressed, playing, name, playOptions, playNote, stopNote]);
+  }, [pressed, name, playOptions, playNote, stopNote]);
 
   // ********** Handlers **********
-  const key = meshRef.current;
   const handleOnPoinerDown = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     playNote(name, playOptions);
-    key.rotation.x = 0.1;
+    meshRef.current.rotation.x = 0.1;
     // setPlaying(true);
   };
 
   const handleOnPoinerUp = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
-    key.rotation.x = 0;
+    meshRef.current.rotation.x = 0;
     stopNote(name);
     // setPlaying(false);
   };
 
   const handleOnPoinerOut = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
-    key.rotation.x = 0;
+    meshRef.current.rotation.x = 0;
     stopNote(name);
     // setPlaying(false);
   };
