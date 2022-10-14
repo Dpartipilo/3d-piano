@@ -221,16 +221,15 @@ const keyboardControlKeys = keyboardKeys.map((keyboardKey) => {
   return { name: keyboardKey.name, keys: keyboardKey.keys };
 });
 
-const notes = keyboardKeys.map((keyboardKey) => {
-  return keyboardKey.name;
-});
+// const notes = keyboardKeys.map((keyboardKey) => {
+//   return keyboardKey.name;
+// });
 
 export const Piano = (props: any) => {
   return (
     <SoundfontProvider
       instrumentName="acoustic_grand_piano"
       audioContext={audioContext}
-      notes={notes}
       hostname={"https://d1pzp51pvbm36p.cloudfront.net"}
       render={({ isLoading, playNote, stopNote }: SoundfontProviderProps) => (
         <KeyboardControls
