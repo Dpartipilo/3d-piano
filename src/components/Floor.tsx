@@ -37,7 +37,7 @@ export const Floor = (props: FloorProps) => {
   const meshRef = useRef<THREE.Mesh>(null!);
 
   return (
-    <mesh {...props} ref={meshRef} rotation-x={-0.5 * Math.PI}>
+    <mesh {...props} receiveShadow ref={meshRef} rotation-x={-0.5 * Math.PI}>
       <planeGeometry args={[50, 30]} />
       <meshStandardMaterial
         map={colorMap}
