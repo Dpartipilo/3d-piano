@@ -53,7 +53,7 @@ function App() {
         </spotLight>
         <Suspense fallback={null}>
           {/********** Helpers ************/}
-          <axesHelper args={[10]} />
+          {/* <axesHelper args={[10]} /> */}
 
           {/********** Floor ************/}
           <Floor />
