@@ -25,8 +25,6 @@ export const Piano = (props: any) => {
     },
   });
 
-  console.log(instrument);
-
   return (
     <SoundfontProvider
       instrumentName={instrument}
