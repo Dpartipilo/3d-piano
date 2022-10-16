@@ -41,17 +41,20 @@ export const Piano = (props: any) => {
             <PianoStructure />
 
             <group {...props} name="Piano Keys" position={[0, 3.1, 0]}>
-              {keyboardKeys.map(({ isBlackKey, id, position, name }, i) => (
-                <PianoKey
-                  key={name}
-                  isBlackKey={isBlackKey}
-                  musicNote={id}
-                  position={position}
-                  name={name}
-                  playNote={playNote}
-                  stopNote={stopNote}
-                />
-              ))}
+              {keyboardKeys.map(
+                ({ isBlackKey, id, position, name, keys }, i) => (
+                  <PianoKey
+                    key={name}
+                    isBlackKey={isBlackKey}
+                    musicNote={id}
+                    position={position}
+                    name={name}
+                    keys={keys}
+                    playNote={playNote}
+                    stopNote={stopNote}
+                  />
+                )
+              )}
             </group>
           </group>
         </KeyboardControls>

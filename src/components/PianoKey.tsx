@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import React, { useEffect, useRef, useState } from "react";
 import { ThreeEvent } from "@react-three/fiber";
-import { useCubeTexture, useKeyboardControls } from "@react-three/drei";
+import { useKeyboardControls, Text } from "@react-three/drei";
 import { useControls } from "leva";
 
 // type SoundProps = {
@@ -36,6 +36,7 @@ type PianoKeyProps = {
   position?: any;
   isBlackKey: boolean;
   name: string;
+  keys: string[];
   playNote: (midiNote: string, options: PlayOptionsProps) => void;
   stopNote: (midiNote: string) => void;
 };
@@ -52,7 +53,7 @@ type PlayOptionsProps = {
 };
 
 export const PianoKey = (props: PianoKeyProps) => {
-  const { isBlackKey, name, playNote, stopNote } = props;
+  const { isBlackKey, name, keys, playNote, stopNote } = props;
 
   const [playOptions, setPlayOptions] = useState<PlayOptionsProps>({});
   const pressed = useKeyboardControls((state) => state[name]);
@@ -70,6 +71,10 @@ export const PianoKey = (props: PianoKeyProps) => {
       duration: { value: 0, min: 0, max: 5, step: 0.1 },
     }
   );
+
+  const { showKeys } = useControls("Show keyboard shortcuts", {
+    showKeys: false,
+  });
 
   useEffect(() => {
     setPlayOptions({
@@ -133,7 +138,21 @@ export const PianoKey = (props: PianoKeyProps) => {
         handleOnPoinerOut(e);
       }}
     >
-      <boxGeometry args={isBlackKey ? [1, 1.9, 5] : [1, 1, 8]}></boxGeometry>
+      <boxGeometry args={isBlackKey ? [1, 1.9, 5] : [1, 1, 8]} />
+
+      {showKeys && (
+        <Text
+          color={`${isBlackKey ? "white" : "black"}`}
+          anchorX="center"
+          anchorY="middle"
+          fontSize={0.5}
+          rotation-x={Math.PI * -0.5}
+          position={isBlackKey ? [0, 1, 2] : [0, 0.6, 3.5]}
+        >
+          {keys[0]}
+        </Text>
+      )}
+
       {isBlackKey ? (
         <meshStandardMaterial color={"#1f1f1e"} roughness={0} />
       ) : (

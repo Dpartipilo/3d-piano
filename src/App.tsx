@@ -2,7 +2,7 @@ import * as THREE from "three";
 import React, { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import "./App.css";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, Text } from "@react-three/drei";
 
 import { Piano } from "./components/Piano";
 import { Floor } from "./components/Floor";
@@ -12,12 +12,12 @@ function App() {
   const { x, y, z, angle, intensity, distance, penumbra } = useControls(
     "Light properties",
     {
-      x: { value: 0, min: -15, max: 15, step: 0.1 },
+      x: { value: 4, min: -15, max: 18, step: 0.1 },
       y: { value: 10, min: 0, max: 15, step: 0.1 },
       z: { value: 0, min: -10, max: 10, step: 0.1 },
-      angle: { value: 0.5, min: 0, max: 1, step: 0.01 },
-      intensity: { value: 1.8, min: 0, max: 3, step: 0.01 },
-      distance: { value: 17, min: 0, max: 20, step: 0.01 },
+      angle: { value: 0.6, min: 0, max: 1, step: 0.01 },
+      intensity: { value: 19, min: 0, max: 3, step: 0.01 },
+      distance: { value: 18, min: 0, max: 20, step: 0.01 },
       penumbra: { value: 0.5, min: 0, max: 1, step: 0.01 },
     }
   );
@@ -28,7 +28,7 @@ function App() {
       <Canvas
         shadows
         camera={{
-          position: [-18, 20, 20],
+          position: [-18, 26, 26],
           near: 0.1,
           fov: 45,
           far: 250,
@@ -75,7 +75,7 @@ function App() {
           {/********** Camera Controls ************/}
           <OrbitControls
             makeDefault
-            maxDistance={50}
+            maxDistance={60}
             minDistance={2}
             maxAzimuthAngle={1.5}
             minAzimuthAngle={-1.5}
