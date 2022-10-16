@@ -16,8 +16,8 @@ function App() {
       y: { value: 10, min: 0, max: 15, step: 0.1 },
       z: { value: 0, min: -10, max: 10, step: 0.1 },
       angle: { value: 0.5, min: 0, max: 1, step: 0.01 },
-      intensity: { value: 1.5, min: 0, max: 3, step: 0.01 },
-      distance: { value: 15, min: 0, max: 20, step: 0.01 },
+      intensity: { value: 1.8, min: 0, max: 3, step: 0.01 },
+      distance: { value: 17, min: 0, max: 20, step: 0.01 },
       penumbra: { value: 0.5, min: 0, max: 1, step: 0.01 },
     }
   );
@@ -35,7 +35,7 @@ function App() {
         }}
         onCreated={({ scene }) => {
           scene.background = new THREE.Color("black");
-          scene.fog = new THREE.Fog("#000000", 1, 240);
+          scene.fog = new THREE.Fog("#000000", 1, 300);
         }}
       >
         {/********** Lights ************/}
@@ -55,14 +55,33 @@ function App() {
           {/********** Helpers ************/}
           {/* <axesHelper args={[10]} /> */}
 
+          {/********** Back Wall ************/}
+          <Floor rotation-x={0} position={[0, 15, -11]} size={[60, 30]} />
+
+          {/********** Left Wall ************/}
+          <Floor
+            rotation-x={0}
+            rotation-y={Math.PI * 0.5}
+            position={[-30, 15, 14]}
+            size={[50, 30]}
+          />
+
           {/********** Floor ************/}
-          <Floor />
+          <Floor position={[0, 0, 14]} size={[60, 50]} />
 
           {/********** Piano ************/}
           <Piano />
 
           {/********** Camera Controls ************/}
-          <OrbitControls makeDefault />
+          <OrbitControls
+            makeDefault
+            maxDistance={50}
+            minDistance={2}
+            maxAzimuthAngle={1.5}
+            minAzimuthAngle={-1.5}
+            maxPolarAngle={1.2}
+            minPolarAngle={0}
+          />
         </Suspense>
       </Canvas>
     </div>

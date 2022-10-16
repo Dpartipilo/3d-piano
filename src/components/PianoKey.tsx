@@ -135,16 +135,9 @@ export const PianoKey = (props: PianoKeyProps) => {
     >
       <boxGeometry args={isBlackKey ? [1, 1.9, 5] : [1, 1, 8]}></boxGeometry>
       {isBlackKey ? (
-        <meshStandardMaterial
-          // envMap={envMap}
-          color={"#1f1f1e"}
-          metalness={1}
-          roughness={0.1}
-        />
+        <meshStandardMaterial color={"#1f1f1e"} roughness={0} />
       ) : (
         <meshStandardMaterial
-          // envMap={envMap}
-
           color={"#e0e0e0"}
           metalness={0.2}
           roughness={0.1}

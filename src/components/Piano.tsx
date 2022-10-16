@@ -1,9 +1,12 @@
 import React from "react";
 import { KeyboardControls } from "@react-three/drei";
-import { PianoKey } from "./PianoKey";
 import SoundfontProvider from "../providers/SoundfontProvider";
 import { useControls } from "leva";
+
 import { instrumentsList, keyboardKeys } from "../misc";
+
+import { PianoKey } from "./PianoKey";
+import { PianoStructure } from "./PianoStructure";
 
 const audioContext = new AudioContext();
 
@@ -34,18 +37,22 @@ export const Piano = (props: any) => {
         <KeyboardControls
           map={[...keyboardControlKeys, { name: "Sustain", keys: ["Space"] }]}
         >
-          <group {...props} name="Piano" position={[0, 3, 0]}>
-            {keyboardKeys.map(({ isBlackKey, id, position, name }, i) => (
-              <PianoKey
-                key={name}
-                isBlackKey={isBlackKey}
-                musicNote={id}
-                position={position}
-                name={name}
-                playNote={playNote}
-                stopNote={stopNote}
-              />
-            ))}
+          <group {...props} name="Piano body">
+            <PianoStructure />
+
+            <group {...props} name="Piano Keys" position={[0, 3.1, 0]}>
+              {keyboardKeys.map(({ isBlackKey, id, position, name }, i) => (
+                <PianoKey
+                  key={name}
+                  isBlackKey={isBlackKey}
+                  musicNote={id}
+                  position={position}
+                  name={name}
+                  playNote={playNote}
+                  stopNote={stopNote}
+                />
+              ))}
+            </group>
           </group>
         </KeyboardControls>
       )}

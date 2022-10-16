@@ -1,11 +1,15 @@
 import * as THREE from "three";
 import React, { useRef } from "react";
-import { useLoader } from "@react-three/fiber";
+import { useLoader, Vector3 } from "@react-three/fiber";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 
-type FloorProps = {};
+type FloorProps = {
+  position?: Vector3;
+  size?: any;
+};
 
 export const Floor = (props: FloorProps) => {
+  const { position, size } = props;
   const [colorMap, displacementMap, normalMap, roughnessMap, aoMap] = useLoader(
     TextureLoader,
     [
@@ -37,8 +41,14 @@ export const Floor = (props: FloorProps) => {
   const meshRef = useRef<THREE.Mesh>(null!);
 
   return (
-    <mesh {...props} receiveShadow ref={meshRef} rotation-x={-0.5 * Math.PI}>
-      <planeGeometry args={[50, 30]} />
+    <mesh
+      rotation-x={-0.5 * Math.PI}
+      {...props}
+      receiveShadow
+      ref={meshRef}
+      position={position}
+    >
+      <planeGeometry args={size} />
       <meshStandardMaterial
         map={colorMap}
         displacementScale={0.2}
