@@ -363,7 +363,7 @@ export const keyboardKeys = [
   },
   {
     id: "61",
-    name: "A5,./",
+    name: "A5",
     isBlackKey: false,
     position: [12.1, 1, 0],
     keys: [","],
