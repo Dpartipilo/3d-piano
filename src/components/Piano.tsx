@@ -21,7 +21,7 @@ const keyboardControlKeys = keyboardKeys.map((keyboardKey) => {
 });
 
 export const Piano = (props: any) => {
-  const { instrument } = useControls("Instrument", {
+  const { instrument } = useControls("Instruments", {
     instrument: {
       value: "acoustic_grand_piano",
       options: instrumentsList,

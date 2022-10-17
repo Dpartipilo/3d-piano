@@ -390,3 +390,38 @@ export const keyboardKeys = [
     keys: ["/"],
   },
 ];
+
+export const presentetionContent = [
+  ` Three.js is a cross-browser JavaScript library and application programming interface (API)
+  used to create and display animated 3D computer graphics in a web browser using WebGL.
+
+  Three.js allows the creation of graphical processing
+  unit (GPU)-accelerated 3D animations using the JavaScript language
+  as part of a website without relying on proprietary browser plugins.
+  This is possible due to the advent of WebGL,
+  a low-level graphics API created specifically for the web.
+
+  High-level libraries such as Three.js or GLGE, SceneJS, PhiloGL,
+  and many more make it possible to author complex 3D computer animations
+  for display in the browser without the effort required for a traditional
+   standalone application or a plugin.`,
+  ` WebGL (Web Graphics Library)
+
+  Is a JavaScript API for rendering high-performance
+  interactive 3D and 2D graphics
+  within any compatible web browser without the use of plug-ins.
+  WebGL does so by introducing an API
+  that closely conforms to OpenGL ES 2.0 that can be used in HTML <canvas> elements.
+  This conformance makes it possible for the API to take advantage of hardware graphics
+  acceleration provided by the user's device.`,
+
+  `  react-three-fiber is a React renderer for threejs.
+
+  Build your scene declaratively with re-usable,
+  self-contained components that react to state,
+  are readily interactive and can participate in React's ecosystem.
+  
+  Canvas element will create a new scene, 
+  and Fiber will instantiate new objects for each component
+  and correctly compose them together in a scene graph!`,
+];

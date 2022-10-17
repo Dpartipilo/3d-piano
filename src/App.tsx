@@ -1,26 +1,51 @@
 import * as THREE from "three";
-import React, { Suspense } from "react";
-import { Canvas } from "@react-three/fiber";
+import React, { Suspense, useRef } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
 import "./App.css";
-import { OrbitControls, Text } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 
 import { Piano } from "./components/Piano";
 import { Floor } from "./components/Floor";
+import { Presentation } from "./components/Presentation";
 import { useControls, Leva } from "leva";
 
 function App() {
-  const { x, y, z, angle, intensity, distance, penumbra } = useControls(
+  const [{ intensity }, setIntensity] = useControls(() => ({
+    intensity: { value: 2.5, min: 0, max: 3, step: 0.01 },
+  }));
+  const { x, y, z, angle, distance, penumbra } = useControls(
     "Light properties",
     {
       x: { value: 4, min: -15, max: 18, step: 0.1 },
       y: { value: 10, min: 0, max: 15, step: 0.1 },
       z: { value: 0, min: -10, max: 10, step: 0.1 },
       angle: { value: 0.6, min: 0, max: 1, step: 0.01 },
-      intensity: { value: 19, min: 0, max: 3, step: 0.01 },
+      // intensity: { value: 19, min: 0, max: 3, step: 0.01 },
       distance: { value: 18, min: 0, max: 20, step: 0.01 },
       penumbra: { value: 0.5, min: 0, max: 1, step: 0.01 },
     }
   );
+
+  const { showPresentation } = useControls("Presentation", {
+    showPresentation: false,
+  });
+
+  const spotlightRef = useRef<any>();
+
+  // useFrame(({ clock, camera }) => {
+  //   if (showPresentation) {
+  //     if (spotlightRef.current.intensity < 2) {
+  //       spotlightRef.current.intensity +=
+  //         spotlightRef.current.intensity + clock.getElapsedTime() * 0.001;
+  //     }
+  //   } else {
+  //     if (spotlightRef.current.intensity > 0)
+  //       spotlightRef.current.intensity -=
+  //         spotlightRef.current.intensity + clock.getElapsedTime() * 0.001;
+  //   }
+
+  //   return null;
+  // });
 
   return (
     <div className="App">
@@ -39,8 +64,9 @@ function App() {
         }}
       >
         {/********** Lights ************/}
-        <ambientLight args={[0xffffff, 0.3]} />
+        <ambientLight args={[0xffffff, 0.4]} />
         <spotLight
+          ref={spotlightRef}
           castShadow
           args={[0xffffff, intensity, distance, Math.PI * angle, penumbra]}
           position={[x, y, z]}
@@ -56,21 +82,38 @@ function App() {
           {/* <axesHelper args={[10]} /> */}
 
           {/********** Back Wall ************/}
-          <Floor rotation-x={0} position={[0, 15, -11]} size={[60, 30]} />
+          <Floor rotation-x={0} position={[0, 15, -11]} size={[80, 50]} />
 
           {/********** Left Wall ************/}
           <Floor
             rotation-x={0}
             rotation-y={Math.PI * 0.5}
-            position={[-30, 15, 14]}
-            size={[50, 30]}
+            position={[-39, 15, 20]}
+            size={[80, 30]}
+          />
+
+          {/********** Right Wall ************/}
+          <Floor
+            rotation-x={0}
+            rotation-y={Math.PI * -0.5}
+            position={[39, 15, 20]}
+            size={[80, 30]}
           />
 
           {/********** Floor ************/}
-          <Floor position={[0, 0, 14]} size={[60, 50]} />
+          <Floor position={[0, 0, 24]} size={[80, 70]} />
 
           {/********** Piano ************/}
           <Piano />
+
+          {/********** Piano ************/}
+          {showPresentation && (
+            <Presentation
+              intensity={intensity}
+              setIntensity={setIntensity}
+              showPresentation={showPresentation}
+            />
+          )}
 
           {/********** Camera Controls ************/}
           <OrbitControls
