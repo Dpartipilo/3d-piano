@@ -56,6 +56,7 @@ export const Floor = (props: FloorProps) => {
         normalMap={normalMap}
         roughnessMap={roughnessMap}
         aoMap={aoMap}
+        roughness={1.4}
       />
     </mesh>
   );
