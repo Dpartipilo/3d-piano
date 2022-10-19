@@ -7,6 +7,7 @@ import { instrumentsList, keyboardKeys } from "../misc";
 
 import { PianoKey } from "./PianoKey";
 import { PianoStructure } from "./PianoStructure";
+import { GroupProps } from "@react-three/fiber";
 
 const audioContext = new AudioContext();
 
@@ -20,7 +21,7 @@ const keyboardControlKeys = keyboardKeys.map((keyboardKey) => {
   return { name: keyboardKey.name, keys: keyboardKey.keys };
 });
 
-export const Piano = (props: any) => {
+export const Piano = (props: GroupProps) => {
   const { instrument } = useControls("Instruments", {
     instrument: {
       value: "acoustic_grand_piano",
@@ -29,36 +30,36 @@ export const Piano = (props: any) => {
   });
 
   return (
-    <SoundfontProvider
-      instrumentName={instrument}
-      audioContext={audioContext}
-      hostname={"https://d1pzp51pvbm36p.cloudfront.net"}
-      render={({ isLoading, playNote, stopNote }: SoundfontProviderProps) => (
-        <KeyboardControls
-          map={[...keyboardControlKeys, { name: "Sustain", keys: ["Space"] }]}
-        >
-          <group {...props} name="Piano body">
-            <PianoStructure />
-
-            <group {...props} name="Piano Keys" position={[0, 3.1, 0]}>
-              {keyboardKeys.map(
-                ({ isBlackKey, id, position, name, keys }, i) => (
-                  <PianoKey
-                    key={name}
-                    isBlackKey={isBlackKey}
-                    musicNote={id}
-                    position={position}
-                    name={name}
-                    keys={keys}
-                    playNote={playNote}
-                    stopNote={stopNote}
-                  />
-                )
-              )}
-            </group>
-          </group>
-        </KeyboardControls>
-      )}
-    />
+    <group {...props}>
+      <SoundfontProvider
+        instrumentName={instrument}
+        audioContext={audioContext}
+        hostname={"https://d1pzp51pvbm36p.cloudfront.net"}
+        render={({ isLoading, playNote, stopNote }: SoundfontProviderProps) => (
+          <KeyboardControls
+            map={[...keyboardControlKeys, { name: "Sustain", keys: ["Space"] }]}
+          >
+            <PianoStructure>
+              <group {...props} name="Piano Keys" position={[0, 3.1, 0]}>
+                {keyboardKeys.map(
+                  ({ isBlackKey, id, position, name, keys }, i) => (
+                    <PianoKey
+                      key={name}
+                      isBlackKey={isBlackKey}
+                      musicNote={id}
+                      position={position}
+                      name={name}
+                      keys={keys}
+                      playNote={playNote}
+                      stopNote={stopNote}
+                    />
+                  )
+                )}
+              </group>
+            </PianoStructure>
+          </KeyboardControls>
+        )}
+      />
+    </group>
   );
 };
