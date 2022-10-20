@@ -56,11 +56,8 @@ export const Scene = (props: any) => {
   // });
 
   // Lean in to the piano camera position animations
-
   useFrame(({ camera, mouse }) => {
-    if (isMobile) {
-      return;
-    }
+    if (isMobile) return;
     camera.position.x = THREE.MathUtils.lerp(
       camera.position.x,
       mouse.x * 2,
@@ -77,7 +74,26 @@ export const Scene = (props: any) => {
     return null;
   });
 
+  // Light on pointer
+  useFrame(({ mouse }) => {
+    if (isMobile) return;
+
+    if (cursorLightRef.current) {
+      cursorLightRef.current.position.x = THREE.MathUtils.lerp(
+        cursorLightRef.current.position.x,
+        mouse.x * 15,
+        0.7
+      );
+      //   cursorLightRef.current.position.x = mouse.x * 15;
+
+      cursorLightRef.current.position.z = -mouse.y * 5;
+    }
+
+    return null;
+  });
+
   const spotlightRef = useRef<any>();
+  const cursorLightRef = useRef<THREE.PointLight>(null);
   return (
     <>
       {/********** Lights ************/}
@@ -95,6 +111,19 @@ export const Scene = (props: any) => {
       <pointLight args={[color, 3, 14, 2]} position={[15, 7, -1]}>
         <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
       </pointLight>
+
+      {isMobile ? null : (
+        <pointLight
+          ref={cursorLightRef}
+          args={["#d4b774", 2, 12, 2]}
+          position={[0, 7, 1]}
+        >
+          <orthographicCamera
+            attach="shadow-camera"
+            args={[-10, 10, 10, -10]}
+          />
+        </pointLight>
+      )}
 
       <pointLight args={[color, 3, 14, 2]} position={[-15, 7, -1]}>
         <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
