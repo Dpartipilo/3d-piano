@@ -13,6 +13,9 @@ export const Scene = (props: any) => {
   //   const [{ intensity }, setIntensity] = useControls(() => ({
   //     intensity: { value: 0.8, min: 0, max: 3, step: 0.01 },
   //   }));
+
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
   const { x, y, z, angle, intensity, distance, penumbra, color } = useControls(
     "Light properties",
     {
@@ -23,7 +26,7 @@ export const Scene = (props: any) => {
       intensity: { value: 0.8, min: 0, max: 3, step: 0.01 },
       distance: { value: 18, min: 0, max: 20, step: 0.01 },
       penumbra: { value: 0.5, min: 0, max: 1, step: 0.01 },
-      color: "#fff3db",
+      color: "#f5eede",
     }
   );
 
@@ -53,7 +56,11 @@ export const Scene = (props: any) => {
   // });
 
   // Lean in to the piano camera position animations
+
   useFrame(({ camera, mouse }) => {
+    if (isMobile) {
+      return;
+    }
     camera.position.x = THREE.MathUtils.lerp(
       camera.position.x,
       mouse.x * 2,
@@ -85,11 +92,11 @@ export const Scene = (props: any) => {
         <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
       </spotLight>
 
-      <pointLight args={["#fff3db", 3, 14, 2]} position={[15, 7, -1]}>
+      <pointLight args={[color, 3, 14, 2]} position={[15, 7, -1]}>
         <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
       </pointLight>
 
-      <pointLight args={["#fff3db", 3, 14, 2]} position={[-15, 7, -1]}>
+      <pointLight args={[color, 3, 14, 2]} position={[-15, 7, -1]}>
         <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
       </pointLight>
 
