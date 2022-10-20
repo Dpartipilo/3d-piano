@@ -3,12 +3,12 @@ import React, { useRef } from "react";
 import { useLoader, Vector3 } from "@react-three/fiber";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 
-type FloorProps = {
+type StagePlaneProps = {
   position?: Vector3;
   size?: any;
 };
 
-export const Floor = (props: FloorProps) => {
+export const StagePlane = (props: StagePlaneProps) => {
   const { position, size } = props;
   const [colorMap, displacementMap, normalMap, roughnessMap, aoMap] = useLoader(
     TextureLoader,
