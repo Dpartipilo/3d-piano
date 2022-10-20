@@ -30,7 +30,7 @@ export const Scene = (props: any) => {
   useEffect(() => {
     document.body.style.cursor = hovered
       ? "pointer"
-      : "url('cursor.png') 39 39, auto";
+      : "url('cursor.png') 39 39, url('https://raw.githubusercontent.com/chenglou/react-motion/master/demos/demo8-draggable-list/cursor.png') 39 39,  auto";
   }, [hovered]);
 
   // const { showPresentation } = useControls("Presentation", {
