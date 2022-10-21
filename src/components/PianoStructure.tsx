@@ -18,6 +18,10 @@ export const PianoStructure = (props: GroupProps) => {
         <boxGeometry args={[1.5, 2, 9.5]} />
         <meshStandardMaterial color={"#1f1f1e"} roughness={0} />
       </mesh>
+      <mesh castShadow position={[2.8, 3.5, -0.3]} name="Bottom side">
+        <boxGeometry args={[27.3, 0.7, 9.6]} />
+        <meshStandardMaterial color={"#1f1f1e"} roughness={0} />
+      </mesh>
       {props.children}
     </group>
   );
