@@ -92,7 +92,7 @@ export const PianoKey = (props: PianoKeyProps) => {
   useEffect(() => {
     const key = meshRef.current;
     if (pressed) {
-      key.rotation.x = 0.1;
+      key.rotation.x = 0.06;
       playNote(name, playOptions);
     } else {
       stopNote(name);
@@ -105,21 +105,18 @@ export const PianoKey = (props: PianoKeyProps) => {
     e.stopPropagation();
     playNote(name, playOptions);
     meshRef.current.rotation.x = 0.06;
-    // setPlaying(true);
   };
 
   const handleOnPoinerUp = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     meshRef.current.rotation.x = 0;
     stopNote(name);
-    // setPlaying(false);
   };
 
   const handleOnPoinerOut = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     meshRef.current.rotation.x = 0;
     stopNote(name);
-    // setPlaying(false);
   };
 
   const bk = {
