@@ -134,7 +134,7 @@ export const keyboardKeys = [
     id: "29",
     name: "C3",
     isBlackKey: false,
-    position: [-8.8, 1, 0],
+    position: [-9.3, 0.6, -3.3],
     keys: ["q"],
   },
   {
@@ -148,7 +148,7 @@ export const keyboardKeys = [
     id: "31",
     name: "D3",
     isBlackKey: false,
-    position: [-7.7, 1, 0],
+    position: [-8.2, 0.6, -3.3],
     keys: ["w"],
   },
   {
@@ -162,14 +162,14 @@ export const keyboardKeys = [
     id: "32",
     name: "E3",
     isBlackKey: false,
-    position: [-6.6, 1, 0],
+    position: [-7.1, 0.6, -3.3],
     keys: ["e"],
   },
   {
     id: "33",
     name: "F3",
     isBlackKey: false,
-    position: [-5.5, 1, 0],
+    position: [-6, 0.6, -3.3],
     keys: ["r"],
   },
   {
@@ -183,7 +183,7 @@ export const keyboardKeys = [
     id: "35",
     name: "G3",
     isBlackKey: false,
-    position: [-4.4, 1, 0],
+    position: [-4.9, 0.6, -3.3],
     keys: ["t"],
   },
   {
@@ -197,7 +197,7 @@ export const keyboardKeys = [
     id: "37",
     name: "A3",
     isBlackKey: false,
-    position: [-3.3, 1, 0],
+    position: [-3.8, 0.6, -3.3],
     keys: ["y"],
   },
   {
@@ -211,14 +211,14 @@ export const keyboardKeys = [
     id: "39",
     name: "B3",
     isBlackKey: false,
-    position: [-2.2, 1, 0],
+    position: [-2.7, 0.6, -3.3],
     keys: ["u"],
   },
   {
     id: "40",
     name: "C4",
     isBlackKey: false,
-    position: [-1.1, 1, 0],
+    position: [-1.6, 0.6, -3.3],
     keys: ["i"],
   },
   {
@@ -232,7 +232,7 @@ export const keyboardKeys = [
     id: "42",
     name: "D4",
     isBlackKey: false,
-    position: [0, 1, 0],
+    position: [-0.5, 0.6, -3.3],
     keys: ["o"],
   },
   {
@@ -246,14 +246,14 @@ export const keyboardKeys = [
     id: "44",
     name: "E4",
     isBlackKey: false,
-    position: [1.1, 1, 0],
+    position: [0.6, 0.6, -3.3],
     keys: ["p"],
   },
   {
     id: "45",
     name: "F4",
     isBlackKey: false,
-    position: [2.2, 1, 0],
+    position: [1.7, 0.6, -3.3],
     keys: ["["],
   },
   {
@@ -267,7 +267,7 @@ export const keyboardKeys = [
     id: "47",
     name: "G4",
     isBlackKey: false,
-    position: [3.3, 1, 0],
+    position: [2.8, 0.6, -3.3],
     keys: ["]"],
   },
   {
@@ -281,7 +281,7 @@ export const keyboardKeys = [
     id: "49",
     name: "A4",
     isBlackKey: false,
-    position: [4.4, 1, 0],
+    position: [3.9, 0.6, -3.3],
     keys: ["z"],
   },
   {
@@ -295,14 +295,14 @@ export const keyboardKeys = [
     id: "51",
     name: "B4",
     isBlackKey: false,
-    position: [5.5, 1, 0],
+    position: [5, 0.6, -3.3],
     keys: ["x"],
   },
   {
     id: "52",
     name: "C5",
     isBlackKey: false,
-    position: [6.6, 1, 0],
+    position: [6.1, 0.6, -3.3],
     keys: ["c"],
   },
   {
@@ -316,7 +316,7 @@ export const keyboardKeys = [
     id: "54",
     name: "D5",
     isBlackKey: false,
-    position: [7.7, 1, 0],
+    position: [7.2, 0.6, -3.3],
     keys: ["v"],
   },
   {
@@ -330,14 +330,14 @@ export const keyboardKeys = [
     id: "56",
     name: "E5",
     isBlackKey: false,
-    position: [8.8, 1, 0],
+    position: [8.3, 0.6, -3.3],
     keys: ["b"],
   },
   {
     id: "57",
     name: "F5",
     isBlackKey: false,
-    position: [9.9, 1, 0],
+    position: [9.4, 0.6, -3.3],
     keys: ["n"],
   },
   {
@@ -351,7 +351,7 @@ export const keyboardKeys = [
     id: "59",
     name: "G5",
     isBlackKey: false,
-    position: [11, 1, 0],
+    position: [10.5, 0.6, -3.3],
     keys: ["m"],
   },
   {
@@ -365,7 +365,7 @@ export const keyboardKeys = [
     id: "61",
     name: "A5",
     isBlackKey: false,
-    position: [12.1, 1, 0],
+    position: [11.6, 0.6, -3.3],
     keys: [","],
   },
   {
@@ -379,14 +379,14 @@ export const keyboardKeys = [
     id: "63",
     name: "B5",
     isBlackKey: false,
-    position: [13.2, 1, 0],
+    position: [12.7, 0.6, -3.3],
     keys: ["."],
   },
   {
     id: "64",
     name: "C6",
     isBlackKey: false,
-    position: [14.3, 1, 0],
+    position: [13.8, 0.6, -3.3],
     keys: ["/"],
   },
 ];

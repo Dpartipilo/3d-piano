@@ -104,7 +104,7 @@ export const PianoKey = (props: PianoKeyProps) => {
   const handleOnPoinerDown = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     playNote(name, playOptions);
-    meshRef.current.rotation.x = 0.1;
+    meshRef.current.rotation.x = 0.06;
     // setPlaying(true);
   };
 
@@ -122,25 +122,29 @@ export const PianoKey = (props: PianoKeyProps) => {
     // setPlaying(false);
   };
 
-  const length = 0.1,
-    width = 0.3;
-
-  const shape = new THREE.Shape();
-  shape.moveTo(0, 0);
-  shape.lineTo(0, width);
-  shape.lineTo(length, width);
-  shape.lineTo(length, 0);
-  shape.lineTo(0, 0);
-
-  const extrudeSettings: THREE.ExtrudeGeometryOptions = {
-    steps: 2,
-    depth: 4,
-    bevelEnabled: true,
-    bevelThickness: 0.6,
-    bevelSize: 0.28,
-    bevelOffset: 0.11,
-    bevelSegments: 15,
+  const bk = {
+    length: 0.1,
+    width: 0.5,
   };
+
+  const wk = {
+    length: 1,
+    width: 1,
+  };
+
+  const blackKeyShape = new THREE.Shape();
+  blackKeyShape.moveTo(0, 0);
+  blackKeyShape.lineTo(0, bk.width);
+  blackKeyShape.lineTo(bk.length, bk.width);
+  blackKeyShape.lineTo(bk.length, 0);
+  blackKeyShape.lineTo(0, 0);
+
+  const whiteKeyShape = new THREE.Shape();
+  whiteKeyShape.moveTo(0, 0);
+  whiteKeyShape.lineTo(0, wk.width);
+  whiteKeyShape.lineTo(wk.length, wk.width);
+  whiteKeyShape.lineTo(wk.length, 0);
+  whiteKeyShape.lineTo(0, 0);
 
   return (
     <mesh
@@ -159,9 +163,32 @@ export const PianoKey = (props: PianoKeyProps) => {
       }}
     >
       {isBlackKey ? (
-        <extrudeGeometry args={[shape, extrudeSettings]} />
+        <extrudeGeometry
+          args={[
+            blackKeyShape,
+            {
+              steps: 2,
+              depth: 4,
+              bevelEnabled: true,
+              bevelThickness: 0.6,
+              bevelSize: 0.28,
+              bevelOffset: 0.11,
+              bevelSegments: 15,
+            },
+          ]}
+        />
       ) : (
-        <boxGeometry args={isBlackKey ? [1, 1.9, 5] : [1, 1, 8]} />
+        <extrudeGeometry
+          args={[
+            whiteKeyShape,
+            {
+              steps: 2,
+              depth: 7.3,
+              bevelEnabled: false,
+            },
+          ]}
+        />
+        // <boxGeometry args={[1, 1, 8]} />
       )}
 
       {showKeys && (
