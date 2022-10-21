@@ -198,7 +198,7 @@ export const PianoKey = (props: PianoKeyProps) => {
           anchorY="middle"
           fontSize={0.5}
           rotation-x={Math.PI * -0.5}
-          position={isBlackKey ? [0, 1, 2] : [0, 0.6, 3.5]}
+          position={isBlackKey ? [0, 1, 3.5] : [0.5, 1.1, 6.5]}
         >
           {keys[0]}
         </Text>
