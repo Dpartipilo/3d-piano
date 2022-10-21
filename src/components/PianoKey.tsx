@@ -122,6 +122,26 @@ export const PianoKey = (props: PianoKeyProps) => {
     // setPlaying(false);
   };
 
+  const length = 0.1,
+    width = 0.3;
+
+  const shape = new THREE.Shape();
+  shape.moveTo(0, 0);
+  shape.lineTo(0, width);
+  shape.lineTo(length, width);
+  shape.lineTo(length, 0);
+  shape.lineTo(0, 0);
+
+  const extrudeSettings: THREE.ExtrudeGeometryOptions = {
+    steps: 2,
+    depth: 4,
+    bevelEnabled: true,
+    bevelThickness: 0.6,
+    bevelSize: 0.28,
+    bevelOffset: 0.11,
+    bevelSegments: 15,
+  };
+
   return (
     <mesh
       {...props}
@@ -138,7 +158,11 @@ export const PianoKey = (props: PianoKeyProps) => {
         handleOnPoinerOut(e);
       }}
     >
-      <boxGeometry args={isBlackKey ? [1, 1.9, 5] : [1, 1, 8]} />
+      {isBlackKey ? (
+        <extrudeGeometry args={[shape, extrudeSettings]} />
+      ) : (
+        <boxGeometry args={isBlackKey ? [1, 1.9, 5] : [1, 1, 8]} />
+      )}
 
       {showKeys && (
         <Text
@@ -154,6 +178,7 @@ export const PianoKey = (props: PianoKeyProps) => {
       )}
 
       {isBlackKey ? (
+        // <meshStandardMaterial color={"white"} roughness={0} />
         <meshStandardMaterial color={"#363535"} roughness={0} />
       ) : (
         <meshStandardMaterial
