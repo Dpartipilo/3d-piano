@@ -58,15 +58,11 @@ export const Scene = (props: any) => {
   // Lean in to the piano camera position animations
   useFrame(({ camera, mouse }) => {
     if (isMobile) return;
-    camera.position.x = THREE.MathUtils.lerp(
-      camera.position.x,
-      mouse.x * 2,
-      0.7
-    );
+    camera.position.x = THREE.MathUtils.lerp(camera.position.x, mouse.x, 0.1);
     camera.rotation.x = THREE.MathUtils.lerp(
       camera.rotation.x,
       mouse.y / 2,
-      0.7
+      0.5
     );
     camera.position.y = THREE.MathUtils.lerp(53, mouse.y * 1, 0.5);
     camera.position.z = THREE.MathUtils.lerp(40, mouse.y * 18, 0.6);
@@ -81,7 +77,7 @@ export const Scene = (props: any) => {
     if (cursorLightRef.current) {
       cursorLightRef.current.position.x = THREE.MathUtils.lerp(
         cursorLightRef.current.position.x,
-        mouse.x * 15,
+        mouse.x * 17,
         0.7
       );
       //   cursorLightRef.current.position.x = mouse.x * 15;
@@ -98,6 +94,20 @@ export const Scene = (props: any) => {
     <>
       {/********** Lights ************/}
       <ambientLight args={[0xffffff, 0.2]} />
+
+      {isMobile ? null : (
+        <pointLight
+          ref={cursorLightRef}
+          args={["#3178c4", 2.5, 14, 2]}
+          position={[0, 5.5, 1]}
+        >
+          <orthographicCamera
+            attach="shadow-camera"
+            args={[-10, 10, 10, -10]}
+          />
+        </pointLight>
+      )}
+
       <spotLight
         ref={spotlightRef}
         castShadow
@@ -111,19 +121,6 @@ export const Scene = (props: any) => {
       <pointLight args={[color, 3, 14, 2]} position={[15, 7, -1]}>
         <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
       </pointLight>
-
-      {isMobile ? null : (
-        <pointLight
-          ref={cursorLightRef}
-          args={["#d4b774", 2, 12, 2]}
-          position={[0, 7, 1]}
-        >
-          <orthographicCamera
-            attach="shadow-camera"
-            args={[-10, 10, 10, -10]}
-          />
-        </pointLight>
-      )}
 
       <pointLight args={[color, 3, 14, 2]} position={[-15, 7, -1]}>
         <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />

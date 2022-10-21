@@ -154,7 +154,7 @@ export const PianoKey = (props: PianoKeyProps) => {
       )}
 
       {isBlackKey ? (
-        <meshStandardMaterial color={"#1f1f1e"} roughness={0} />
+        <meshStandardMaterial color={"#363535"} roughness={0} />
       ) : (
         <meshStandardMaterial
           color={"#e0e0e0"}
