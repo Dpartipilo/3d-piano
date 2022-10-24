@@ -4,7 +4,7 @@
 }
 
 body {
-  cursor:  url('/public/cursor.png') 39 39, url('https://raw.githubusercontent.com/chenglou/react-motion/master/demos/demo8-draggable-list/cursor.png') 39 39,  auto;
+  cursor:  url('../public/cursor.png') 39 39, url('https://raw.githubusercontent.com/chenglou/react-motion/master/demos/demo8-draggable-list/cursor.png') 39 39,  auto;
 }
 
 .hovered {
