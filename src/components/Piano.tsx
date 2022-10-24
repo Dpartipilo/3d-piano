@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { KeyboardControls } from "@react-three/drei";
 import SoundfontProvider from "../providers/SoundfontProvider";
 import { useControls } from "leva";
@@ -46,8 +46,27 @@ export const Piano = (props: GroupProps) => {
     showKeys: false,
   });
 
+  const [hovered, setHovered] = useState(false);
+  useEffect(() => {
+    hovered
+      ? document.body.classList.add("hovered")
+      : document.body.classList.remove("hovered");
+  }, [hovered]);
+
+  const [isPressingDown, setIsPressingDown] = useState(false);
+
+  const handlePressingDown = (pressing: boolean) => {
+    setIsPressingDown(pressing);
+  };
+
   return (
-    <group {...props}>
+    <group
+      {...props}
+      onPointerDown={() => setIsPressingDown(true)}
+      onPointerUp={() => setIsPressingDown(false)}
+      onPointerOver={() => setHovered(true)}
+      onPointerLeave={() => setHovered(false)}
+    >
       <SoundfontProvider
         instrumentName={instrument}
         audioContext={audioContext}
@@ -76,6 +95,8 @@ export const Piano = (props: GroupProps) => {
                       release={release}
                       duration={duration}
                       showKeys={showKeys}
+                      isPressingDown={isPressingDown}
+                      handlePressingDown={handlePressingDown}
                     />
                   )
                 )}

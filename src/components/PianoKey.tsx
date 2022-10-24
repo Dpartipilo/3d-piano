@@ -45,8 +45,10 @@ type PianoKeyProps = {
   duration?: number;
   loop?: boolean;
   showKeys?: boolean;
+  isPressingDown?: boolean;
   playNote: (midiNote: string, options: PlayOptionsProps) => void;
   stopNote: (midiNote: string) => void;
+  handlePressingDown: (pressing: boolean) => void;
 };
 
 type PlayOptionsProps = {
@@ -71,8 +73,10 @@ export const PianoKey = (props: PianoKeyProps) => {
     keys,
     release,
     showKeys,
+    isPressingDown,
     playNote,
     stopNote,
+    handlePressingDown,
   } = props;
 
   const [playOptions, setPlayOptions] = useState<PlayOptionsProps>({});
@@ -104,13 +108,13 @@ export const PianoKey = (props: PianoKeyProps) => {
   }, [pressed, name, playOptions, playNote, stopNote]);
 
   // ********** Handlers **********
-  const handleOnPoinerDown = (e: ThreeEvent<MouseEvent>) => {
+  const handleOnPointerDown = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     playNote(name, playOptions);
     meshRef.current.rotation.x = 0.06;
   };
 
-  const handleOnPoinerUp = (e: ThreeEvent<MouseEvent>) => {
+  const handleOnPointerUp = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     meshRef.current.rotation.x = 0;
     stopNote(name);
@@ -152,11 +156,18 @@ export const PianoKey = (props: PianoKeyProps) => {
       castShadow
       receiveShadow
       ref={meshRef}
+      onPointerOver={(e) => {
+        if (isPressingDown) {
+          handleOnPointerDown(e);
+        }
+      }}
       onPointerDown={(e) => {
-        handleOnPoinerDown(e);
+        handlePressingDown(true);
+        handleOnPointerDown(e);
       }}
       onPointerUp={(e) => {
-        handleOnPoinerUp(e);
+        handlePressingDown(false);
+        handleOnPointerUp(e);
       }}
       onPointerOut={(e) => {
         handleOnPoinerOut(e);

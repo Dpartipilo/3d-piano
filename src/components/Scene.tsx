@@ -8,12 +8,6 @@ import { StagePlane } from "./StagePlane";
 import { useControls } from "leva";
 
 export const Scene = (props: any) => {
-  const [hovered, setHovered] = useState(false);
-
-  //   const [{ intensity }, setIntensity] = useControls(() => ({
-  //     intensity: { value: 0.8, min: 0, max: 3, step: 0.01 },
-  //   }));
-
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   const { x, y, z, angle, intensity, distance, penumbra, color } = useControls(
@@ -29,12 +23,6 @@ export const Scene = (props: any) => {
       color: "#f5eede",
     }
   );
-
-  useEffect(() => {
-    hovered
-      ? document.body.classList.add("hovered")
-      : document.body.classList.remove("hovered");
-  }, [hovered]);
 
   // const { showPresentation } = useControls("Presentation", {
   //   showPresentation: false,
@@ -145,11 +133,7 @@ export const Scene = (props: any) => {
         <StagePlane position={[0, 0, 24]} size={[80, 70]} />
 
         {/********** Piano ************/}
-        <Piano
-          position={[-3, 0, 0]}
-          onPointerOver={() => setHovered(true)}
-          onPointerLeave={() => setHovered(false)}
-        />
+        <Piano position={[-3, 0, 0]} />
 
         {/********** Presentation ************/}
         {/* {showPresentation && (
