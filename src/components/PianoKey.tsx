@@ -2,7 +2,6 @@ import * as THREE from "three";
 import React, { useEffect, useRef, useState } from "react";
 import { ThreeEvent } from "@react-three/fiber";
 import { useKeyboardControls, Text } from "@react-three/drei";
-import { useControls } from "leva";
 
 // type SoundProps = {
 //   url?: string;
@@ -37,6 +36,15 @@ type PianoKeyProps = {
   isBlackKey: boolean;
   name: string;
   keys: string[];
+  gain?: number;
+  attack?: number;
+  decay?: number;
+  sustain?: number;
+  release?: number;
+  adsr?: number[];
+  duration?: number;
+  loop?: boolean;
+  showKeys?: boolean;
   playNote: (midiNote: string, options: PlayOptionsProps) => void;
   stopNote: (midiNote: string) => void;
 };
@@ -53,28 +61,23 @@ type PlayOptionsProps = {
 };
 
 export const PianoKey = (props: PianoKeyProps) => {
-  const { isBlackKey, name, keys, playNote, stopNote } = props;
+  const {
+    isBlackKey,
+    name,
+    gain,
+    attack,
+    decay,
+    sustain,
+    keys,
+    release,
+    showKeys,
+    playNote,
+    stopNote,
+  } = props;
 
   const [playOptions, setPlayOptions] = useState<PlayOptionsProps>({});
   const pressed = useKeyboardControls((state) => state[name]);
   const sustainKey = useKeyboardControls((state) => state.Sustain);
-
-  // ********** Leva GUI controls **********
-  const { gain, attack, decay, sustain, release, duration } = useControls(
-    "Sound properties",
-    {
-      gain: { value: 2, min: 0, max: 10, step: 0.1 },
-      attack: { value: 0, min: 0, max: 5, step: 0.1 },
-      decay: { value: 0, min: 0, max: 5, step: 0.1 },
-      sustain: { value: 0, min: 0, max: 5, step: 0.1 },
-      release: { value: 0.7, min: 0, max: 5, step: 0.1 },
-      duration: { value: 0, min: 0, max: 5, step: 0.1 },
-    }
-  );
-
-  const { showKeys } = useControls("Show keyboard shortcuts", {
-    showKeys: false,
-  });
 
   useEffect(() => {
     setPlayOptions({
@@ -84,7 +87,7 @@ export const PianoKey = (props: PianoKeyProps) => {
       sustain,
       release: sustainKey ? 10 : release,
     });
-  }, [gain, attack, decay, sustain, release, duration, sustainKey]);
+  }, [gain, attack, decay, sustain, release, sustainKey]);
 
   // ********** Refs **********
   const meshRef = useRef<THREE.Mesh>(null!);

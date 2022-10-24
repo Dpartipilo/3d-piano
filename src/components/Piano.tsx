@@ -29,6 +29,23 @@ export const Piano = (props: GroupProps) => {
     },
   });
 
+  // ********** Leva GUI controls **********
+  const { gain, attack, decay, sustain, release, duration } = useControls(
+    "Sound properties",
+    {
+      gain: { value: 2, min: 0, max: 10, step: 0.1 },
+      attack: { value: 0, min: 0, max: 5, step: 0.1 },
+      decay: { value: 0, min: 0, max: 5, step: 0.1 },
+      sustain: { value: 0, min: 0, max: 5, step: 0.1 },
+      release: { value: 0.7, min: 0, max: 5, step: 0.1 },
+      duration: { value: 0, min: 0, max: 5, step: 0.1 },
+    }
+  );
+
+  const { showKeys } = useControls("Show keyboard shortcuts", {
+    showKeys: false,
+  });
+
   return (
     <group {...props}>
       <SoundfontProvider
@@ -52,6 +69,13 @@ export const Piano = (props: GroupProps) => {
                       keys={keys}
                       playNote={playNote}
                       stopNote={stopNote}
+                      gain={gain}
+                      attack={attack}
+                      decay={decay}
+                      sustain={sustain}
+                      release={release}
+                      duration={duration}
+                      showKeys={showKeys}
                     />
                   )
                 )}
