@@ -77,11 +77,12 @@ export const Scene = (props: any) => {
     <>
       {/********** Lights ************/}
       <ambientLight args={[0xffffff, 0.2]} />
+      <hemisphereLight args={[color, 0x080820, 0.3]} />
 
       {isMobile ? null : (
         <pointLight
           ref={cursorLightRef}
-          args={["#3178c4", 2.5, 14, 2]}
+          args={["#3178c4", 3, 15, 2]}
           position={[0, 5.5, 1]}
         >
           <orthographicCamera

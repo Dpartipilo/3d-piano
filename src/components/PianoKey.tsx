@@ -110,12 +110,14 @@ export const PianoKey = (props: PianoKeyProps) => {
   // ********** Handlers **********
   const handleOnPointerDown = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
+    handlePressingDown(true);
     playNote(name, playOptions);
     meshRef.current.rotation.x = 0.06;
   };
 
   const handleOnPointerUp = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
+    handlePressingDown(false);
     meshRef.current.rotation.x = 0;
     stopNote(name);
   };
@@ -157,16 +159,15 @@ export const PianoKey = (props: PianoKeyProps) => {
       receiveShadow
       ref={meshRef}
       onPointerOver={(e) => {
+        e.stopPropagation();
         if (isPressingDown) {
           handleOnPointerDown(e);
         }
       }}
       onPointerDown={(e) => {
-        handlePressingDown(true);
         handleOnPointerDown(e);
       }}
       onPointerUp={(e) => {
-        handlePressingDown(false);
         handleOnPointerUp(e);
       }}
       onPointerOut={(e) => {
@@ -184,7 +185,7 @@ export const PianoKey = (props: PianoKeyProps) => {
               bevelThickness: 0.6,
               bevelSize: 0.28,
               bevelOffset: 0.11,
-              bevelSegments: 15,
+              bevelSegments: 30,
             },
           ]}
         />
@@ -216,8 +217,12 @@ export const PianoKey = (props: PianoKeyProps) => {
       )}
 
       {isBlackKey ? (
-        // <meshStandardMaterial color={"white"} roughness={0} />
-        <meshStandardMaterial color={"#363535"} roughness={0} />
+        <meshPhongMaterial
+          color={"#212121"}
+          reflectivity={0.6}
+          shininess={60}
+          specular={"#363636"}
+        />
       ) : (
         <meshStandardMaterial
           color={"#e0e0e0"}
