@@ -218,7 +218,7 @@ export const PianoKey = (props: PianoKeyProps) => {
 
       {isBlackKey ? (
         <meshPhongMaterial
-          color={"#212121"}
+          color={"#282828"}
           reflectivity={0.6}
           shininess={60}
           specular={"#363636"}

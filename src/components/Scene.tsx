@@ -76,8 +76,8 @@ export const Scene = (props: any) => {
   return (
     <>
       {/********** Lights ************/}
-      <ambientLight args={[0xffffff, 0.2]} />
-      <hemisphereLight args={[color, 0x080820, 0.3]} />
+      <ambientLight args={[0xffffff, 0.1]} />
+      <hemisphereLight args={[color, 0x080820, 0.2]} />
 
       {isMobile ? null : (
         <pointLight

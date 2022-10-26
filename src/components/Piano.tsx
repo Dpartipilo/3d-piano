@@ -46,6 +46,10 @@ export const Piano = (props: GroupProps) => {
     showKeys: false,
   });
 
+  const { power } = useControls("On/Off", {
+    power: true,
+  });
+
   const [hovered, setHovered] = useState(false);
   useEffect(() => {
     hovered
@@ -75,7 +79,7 @@ export const Piano = (props: GroupProps) => {
           <KeyboardControls
             map={[...keyboardControlKeys, { name: "Sustain", keys: ["Space"] }]}
           >
-            <PianoStructure>
+            <PianoStructure power={power}>
               <group {...props} name="Piano Keys" position={[0, 3.1, 0]}>
                 {keyboardKeys.map(
                   ({ isBlackKey, id, position, name, keys }, i) => (
