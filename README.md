@@ -1,46 +1,72 @@
-# Getting Started with Create React App
+# 3D piano
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A 3D piano on the browser that can be played.
 
-## Available Scripts
+## Motivation
 
-In the project directory, you can run:
+The main purpose of this project is to learn more about WebGL as part of my exploration to grow as a creative developer.
 
-### `yarn start`
+```
+WebGL is a JavaScript API for rendering 3D graphics within a web browser, giving developers the ability to create unique, delightful graphics, unlike anything a static image is capable of.
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+This project was created using:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Typescript
+- ReactJS
+- ThreeJS
+- React-three-fiber
+- react-three/drei
+- Leva
+- soundfont-player
 
-### `yarn test`
+I wanted to create something that feels and looks great while giving the user an experience they can enjoy. As the project and learning goes the possibilities expand constantly evolving the initial idea `create a 3D element on the web that can be used`.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Combining my music knowledge with WebGl I was able to create a 3D piano that can be played.
 
-### `yarn build`
+## Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Please follow the instructions to clone this project and install all the necessary dependencies.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Open a terminal and navigate to the folder in which you wish to save the project. Run the following command:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+git clone https://github.com/Dpartipilo/3d-piano.git
+```
 
-### `yarn eject`
+2. Navigate into the new created folder e.g: `cd 3d-piano` and run the following command:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+npm install / yarn install
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Running the App
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+1. In order to run the App please run the command:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```
+npm start / yarn start
+```
 
-## Learn More
+2. It should open a tab in your browser with the following address:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+http://localhost:3000
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Author
+
+- [Diego Partipilo](https://github.com/Dpartipilo)
+
+## Acknowledgments
+
+Thanks to [Formidable](https://formidable.com/) for all the support in my growing career as a developer.
+
+## Further development / road map
+
+- Create a cinematic intro
+- Create an interactive way to change lights
+- Create an interactive way to change music instruments
+- Create an interactive way to change sound options
+- Create an interactive way to show keyboard shortcuts on keys
+- Add more elements that affect the scene
