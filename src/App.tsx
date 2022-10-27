@@ -2,7 +2,7 @@
 import React from "react";
 import { Canvas } from "@react-three/fiber";
 import "./App.css";
-// import { OrbitControls } from "@react-three/drei";x
+import { OrbitControls } from "@react-three/drei";
 
 import { Scene } from "./components/Scene";
 // import { Presentation } from "./components/Presentation";
@@ -28,7 +28,7 @@ function App() {
 
         {/********** Dev Camera Controls ************/}
 
-        {/* {true ? (
+        {isMobile ? (
           <OrbitControls
             makeDefault
             maxDistance={70}
@@ -38,7 +38,7 @@ function App() {
             maxPolarAngle={1.2}
             minPolarAngle={0}
           />
-        ) : null} */}
+        ) : null}
       </Canvas>
     </div>
   );
