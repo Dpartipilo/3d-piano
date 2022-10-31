@@ -99,11 +99,11 @@ export const PianoKey = (props: PianoKeyProps) => {
   useEffect(() => {
     const key = meshRef.current;
     if (pressed) {
-      key.rotation.x = 0.06;
+      key.rotation.x = THREE.MathUtils.lerp(0, 0.06, 1);
       playNote(name, playOptions);
     } else {
       stopNote(name);
-      key.rotation.x = 0;
+      key.rotation.x = THREE.MathUtils.lerp(0.06, 0, 1);
     }
   }, [pressed, name, playOptions, playNote, stopNote]);
 
@@ -112,19 +112,19 @@ export const PianoKey = (props: PianoKeyProps) => {
     e.stopPropagation();
     handlePressingDown(true);
     playNote(name, playOptions);
-    meshRef.current.rotation.x = 0.06;
+    meshRef.current.rotation.x = THREE.MathUtils.lerp(0, 0.06, 1);
   };
 
   const handleOnPointerUp = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     handlePressingDown(false);
-    meshRef.current.rotation.x = 0;
+    meshRef.current.rotation.x = THREE.MathUtils.lerp(0.06, 0, 1);
     stopNote(name);
   };
 
   const handleOnPoinerOut = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
-    meshRef.current.rotation.x = 0;
+    meshRef.current.rotation.x = THREE.MathUtils.lerp(0.06, 0, 1);
     stopNote(name);
   };
 
@@ -185,7 +185,7 @@ export const PianoKey = (props: PianoKeyProps) => {
               bevelThickness: 0.6,
               bevelSize: 0.28,
               bevelOffset: 0.11,
-              bevelSegments: 30,
+              bevelSegments: 40,
             },
           ]}
         />
@@ -200,7 +200,6 @@ export const PianoKey = (props: PianoKeyProps) => {
             },
           ]}
         />
-        // <boxGeometry args={[1, 1, 8]} />
       )}
 
       {showKeys && (
