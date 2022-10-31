@@ -1,4 +1,4 @@
-// import * as THREE from "three";
+import * as THREE from "three";
 import React from "react";
 import { Canvas } from "@react-three/fiber";
 import "./App.css";
@@ -20,7 +20,10 @@ function App() {
           position: isMobile ? [0, 45, 35] : [0, 28, 26],
           near: 0.1,
           fov: 45,
-          far: 250,
+          far: 750,
+        }}
+        onCreated={({ scene }) => {
+          scene.background = new THREE.Color("black");
         }}
       >
         {/********** Scene ************/}
