@@ -50,6 +50,7 @@ export const StagePlane = (props: StagePlaneProps) => {
     >
       <planeGeometry args={size} />
       <meshStandardMaterial
+        color={"#a1958d"}
         map={colorMap}
         displacementScale={0.2}
         displacementMap={displacementMap}
