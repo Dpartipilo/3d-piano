@@ -4,7 +4,6 @@ import { useFrame } from "@react-three/fiber";
 
 import { Piano } from "./Piano";
 import { StagePlane } from "./StagePlane";
-// import { Presentation } from "./components/Presentation";
 import { useControls } from "leva";
 
 export const Scene = (props: any) => {
@@ -23,25 +22,6 @@ export const Scene = (props: any) => {
       color: "#f5eede",
     }
   );
-
-  // const { showPresentation } = useControls("Presentation", {
-  //   showPresentation: false,
-  // });
-
-  // useFrame(({ clock, camera }) => {
-  //   if (showPresentation) {
-  //     if (spotlightRef.current.intensity < 2) {
-  //       spotlightRef.current.intensity +=
-  //         spotlightRef.current.intensity + clock.getElapsedTime() * 0.001;
-  //     }
-  //   } else {
-  //     if (spotlightRef.current.intensity > 0)
-  //       spotlightRef.current.intensity -=
-  //         spotlightRef.current.intensity + clock.getElapsedTime() * 0.001;
-  //   }
-
-  //   return null;
-  // });
 
   // Lean in to the piano camera position animations
   useFrame(({ camera, mouse }) => {
@@ -63,7 +43,7 @@ export const Scene = (props: any) => {
     if (isMobile) return;
 
     if (cursorLightRef.current) {
-      cursorLightRef.current.position.x = mouse.x * 15;
+      cursorLightRef.current.position.x = mouse.x * 16;
 
       cursorLightRef.current.position.z = -mouse.y * 10;
     }
@@ -76,14 +56,14 @@ export const Scene = (props: any) => {
   return (
     <>
       {/********** Lights ************/}
-      <ambientLight args={[0xffffff, 0.1]} />
-      <hemisphereLight args={[color, 0x080820, 0.2]} />
+      <ambientLight args={[0xffffff, 0.4]} />
+      <hemisphereLight args={[color, 0x080820, 0.3]} />
 
       {isMobile ? null : (
         <pointLight
           ref={cursorLightRef}
-          args={["#3178c4", 3, 15, 2]}
-          position={[0, 5.5, 1]}
+          args={["#70a0d4", 6, 15, 4]}
+          position={[0, 9, 2]}
         >
           <orthographicCamera
             attach="shadow-camera"
@@ -145,6 +125,11 @@ export const Scene = (props: any) => {
       />
     )} */}
         {/********** Helpers ************/}
+        {/* {cursorLightRef.current && (
+        <pointLightHelper
+          args={[cursorLightRef.current, 5, "white"]}
+        ></pointLightHelper>
+      )} */}
         {/* <axesHelper args={[10]} /> */}
       </Suspense>
     </>
