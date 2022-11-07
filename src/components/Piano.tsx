@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import { KeyboardControls } from "@react-three/drei";
 import SoundfontProvider from "../providers/SoundfontProvider";
 import { useControls } from "leva";
@@ -50,6 +51,10 @@ export const Piano = (props: GroupProps) => {
     power: true,
   });
 
+  const { color } = useControls("Piano color", {
+    color: "#1f1f1e",
+  });
+
   const [hovered, setHovered] = useState(false);
   useEffect(() => {
     hovered
@@ -79,7 +84,7 @@ export const Piano = (props: GroupProps) => {
           <KeyboardControls
             map={[...keyboardControlKeys, { name: "Sustain", keys: ["Space"] }]}
           >
-            <PianoStructure power={power}>
+            <PianoStructure power={power} pianoColor={color}>
               <group {...props} name="Piano Keys" position={[0, 3.1, 0]}>
                 {keyboardKeys.map(
                   ({ isBlackKey, id, position, name, keys }, i) => (
