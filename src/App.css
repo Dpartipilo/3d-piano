@@ -4,6 +4,7 @@
 }
 
 body {
+  overflow: hidden;
   cursor:  url('./misc/cursor.png') 39 39,   auto;
 }
 
