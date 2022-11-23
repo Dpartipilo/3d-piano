@@ -46,6 +46,7 @@ type PianoKeyProps = {
   loop?: boolean;
   showKeys?: boolean;
   isPressingDown?: boolean;
+  power: boolean;
   playNote: (midiNote: string, options: PlayOptionsProps) => void;
   stopNote: (midiNote: string) => void;
   handlePressingDown: (pressing: boolean) => void;
@@ -74,6 +75,7 @@ export const PianoKey = (props: PianoKeyProps) => {
     release,
     showKeys,
     isPressingDown,
+    power,
     playNote,
     stopNote,
     handlePressingDown,
@@ -100,18 +102,18 @@ export const PianoKey = (props: PianoKeyProps) => {
     const key = meshRef.current;
     if (pressed) {
       key.rotation.x = THREE.MathUtils.lerp(0, 0.06, 1);
-      playNote(name, playOptions);
+      power && playNote(name, playOptions);
     } else {
-      stopNote(name);
+      power && stopNote(name);
       key.rotation.x = THREE.MathUtils.lerp(0.06, 0, 1);
     }
-  }, [pressed, name, playOptions, playNote, stopNote]);
+  }, [pressed, name, playOptions, power, playNote, stopNote]);
 
   // ********** Handlers **********
   const handleOnPointerDown = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     handlePressingDown(true);
-    playNote(name, playOptions);
+    power && playNote(name, playOptions);
     meshRef.current.rotation.x = THREE.MathUtils.lerp(0, 0.06, 1);
   };
 

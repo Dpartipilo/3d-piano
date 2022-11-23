@@ -8,7 +8,7 @@ type PowerLightProps = GroupProps & {
 export const PowerLight = (props: PowerLightProps) => {
   const { power } = props;
   return (
-    <group position={[14, 6, -4]}>
+    <group position={[15.3, 6, -4]}>
       {power && <pointLight args={["red", 4, 5, 2]} position={[0, 0.1, 0]} />}
       <mesh
         rotation-x={Math.PI * 0.5}

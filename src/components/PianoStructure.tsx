@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, ReactElement, SetStateAction } from "react";
 import {
   GroupProps,
   MeshProps,
@@ -8,9 +8,11 @@ import {
 } from "@react-three/fiber";
 import { PowerLight } from "./PowerLight";
 import { FormidableLogo } from "./Logo";
+import { PowerButton } from "./PowerButton";
 
 type PianoStructureProps = GroupProps & {
   power: boolean;
+  setPower: Dispatch<SetStateAction<boolean>>;
   pianoColor?: Color;
 };
 
@@ -18,7 +20,7 @@ type PianoBlockProps = {
   mesh?: MeshProps;
   material?: MeshPhysicalMaterialProps;
   geometry?: BoxGeometryProps;
-  children?: any;
+  children?: ReactElement;
 };
 
 const PianoBlock = ({
@@ -35,7 +37,7 @@ const PianoBlock = ({
 );
 
 export const PianoStructure = (props: PianoStructureProps) => {
-  const { power, pianoColor } = props;
+  const { power, pianoColor, setPower } = props;
 
   return (
     <group {...props} name="Piano body">
@@ -81,8 +83,8 @@ export const PianoStructure = (props: PianoStructureProps) => {
         material={{ color: pianoColor, roughness: 0, reflectivity: 0.8 }}
       />
 
+      <PowerButton setPower={setPower} power={power} />
       <PowerLight power={power} />
-      {props.children}
     </group>
   );
 };

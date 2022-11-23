@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { KeyboardControls } from "@react-three/drei";
 import SoundfontProvider from "../providers/SoundfontProvider";
@@ -6,9 +6,9 @@ import { useControls } from "leva";
 
 import { instrumentsList, keyboardKeys } from "../misc";
 
-import { PianoKey } from "./PianoKey";
 import { PianoStructure } from "./PianoStructure";
 import { GroupProps } from "@react-three/fiber";
+import { PianoKeys } from "./PianoKeys";
 
 const audioContext = new AudioContext();
 
@@ -23,6 +23,10 @@ const keyboardControlKeys = keyboardKeys.map((keyboardKey) => {
 });
 
 export const Piano = (props: GroupProps) => {
+  const [isPressingDown, setIsPressingDown] = useState(false);
+  const [power, setPower] = useState(false);
+
+  // ********** Leva GUI controls **********
   const { instrument } = useControls("Instruments", {
     instrument: {
       value: "acoustic_grand_piano",
@@ -30,52 +34,19 @@ export const Piano = (props: GroupProps) => {
     },
   });
 
-  // ********** Leva GUI controls **********
-  const { gain, attack, decay, sustain, release, duration } = useControls(
-    "Sound properties",
-    {
-      gain: { value: 2, min: 0, max: 10, step: 0.1 },
-      attack: { value: 0, min: 0, max: 5, step: 0.1 },
-      decay: { value: 0, min: 0, max: 5, step: 0.1 },
-      sustain: { value: 0, min: 0, max: 5, step: 0.1 },
-      release: { value: 0.7, min: 0, max: 5, step: 0.1 },
-      duration: { value: 0, min: 0, max: 5, step: 0.1 },
-    }
-  );
-
-  const { showKeys } = useControls("Show keyboard shortcuts", {
-    showKeys: false,
-  });
-
-  const { power } = useControls("On/Off", {
-    power: true,
-  });
-
   const { color } = useControls("Piano color", {
     color: "#1f1f1e",
   });
 
-  const [hovered, setHovered] = useState(false);
-  useEffect(() => {
-    hovered
-      ? document.body.classList.add("hovered")
-      : document.body.classList.remove("hovered");
-  }, [hovered]);
-
-  const [isPressingDown, setIsPressingDown] = useState(false);
+  // **************************************
 
   const handlePressingDown = (pressing: boolean) => {
     setIsPressingDown(pressing);
   };
 
   return (
-    <group
-      {...props}
-      onPointerDown={() => setIsPressingDown(true)}
-      onPointerUp={() => setIsPressingDown(false)}
-      onPointerOver={() => setHovered(true)}
-      onPointerLeave={() => setHovered(false)}
-    >
+    <group {...props}>
+      <PianoStructure setPower={setPower} power={power} pianoColor={color} />
       <SoundfontProvider
         instrumentName={instrument}
         audioContext={audioContext}
@@ -84,33 +55,13 @@ export const Piano = (props: GroupProps) => {
           <KeyboardControls
             map={[...keyboardControlKeys, { name: "Sustain", keys: ["Space"] }]}
           >
-            <PianoStructure power={power} pianoColor={color}>
-              <group {...props} name="Piano Keys" position={[0, 3.1, 0]}>
-                {keyboardKeys.map(
-                  ({ isBlackKey, id, position, name, keys }, i) => (
-                    <PianoKey
-                      key={name}
-                      isBlackKey={isBlackKey}
-                      musicNote={id}
-                      position={position}
-                      name={name}
-                      keys={keys}
-                      playNote={playNote}
-                      stopNote={stopNote}
-                      gain={gain}
-                      attack={attack}
-                      decay={decay}
-                      sustain={sustain}
-                      release={release}
-                      duration={duration}
-                      showKeys={showKeys}
-                      isPressingDown={isPressingDown}
-                      handlePressingDown={handlePressingDown}
-                    />
-                  )
-                )}
-              </group>
-            </PianoStructure>
+            <PianoKeys
+              power={power}
+              playNote={playNote}
+              stopNote={stopNote}
+              isPressingDown={isPressingDown}
+              handlePressingDown={handlePressingDown}
+            />
           </KeyboardControls>
         )}
       />
