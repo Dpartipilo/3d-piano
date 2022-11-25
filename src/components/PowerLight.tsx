@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { GroupProps } from "@react-three/fiber";
 
 type PowerLightProps = GroupProps & {
@@ -7,15 +7,16 @@ type PowerLightProps = GroupProps & {
 
 export const PowerLight = (props: PowerLightProps) => {
   const { power } = props;
+
   return (
-    <group position={[15.3, 6, -4]}>
+    <group position={[0.45, power ? 0.02 : 0.12, 0.1]}>
       {power && <pointLight args={["red", 4, 5, 2]} position={[0, 0.1, 0]} />}
       <mesh
         rotation-x={Math.PI * 0.5}
         rotation-z={Math.PI * 0.5}
         name="On/Off light"
       >
-        <capsuleGeometry args={[0.2, 0.5, 4, 15]} />
+        <capsuleGeometry args={[0.1, 0.5, 4, 15]} />
         <meshPhysicalMaterial
           color={"red"}
           emissive={power ? "#c71a1a" : "#300404"}
