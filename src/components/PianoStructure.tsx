@@ -1,4 +1,4 @@
-import React, { Dispatch, ReactElement, SetStateAction } from "react";
+import { Dispatch, ReactElement, SetStateAction } from "react";
 import {
   GroupProps,
   MeshProps,
@@ -6,11 +6,11 @@ import {
   MeshPhysicalMaterialProps,
   Color,
 } from "@react-three/fiber";
-import { PowerLight } from "./PowerLight";
-import { FormidableLogo } from "./Logo";
+import { Logo } from "./Logo";
 import { PowerButton } from "./PowerButton";
 
 type PianoStructureProps = GroupProps & {
+  size: number;
   power: boolean;
   setPower: Dispatch<SetStateAction<boolean>>;
   pianoColor?: Color;
@@ -37,26 +37,24 @@ const PianoBlock = ({
 );
 
 export const PianoStructure = (props: PianoStructureProps) => {
-  const { power, pianoColor, setPower } = props;
+  const { power, pianoColor, size, setPower } = props;
 
   return (
     <group {...props} name="Piano body">
       <PianoBlock
         mesh={{
           castShadow: true,
-          position: [2.8, 4.75, -4.1],
+          position: [size / 2, 4.75, 0],
           name: "Back piece",
         }}
-        geometry={{ args: [27.3, 2.5, 2] }}
+        geometry={{ args: [size, 2.5, 2] }}
         material={{ color: pianoColor, roughness: 0, reflectivity: 0.8 }}
-      >
-        <FormidableLogo />
-      </PianoBlock>
+      />
 
       <PianoBlock
         mesh={{
           castShadow: true,
-          position: [-10.1, 4.5, -0.25],
+          position: [0.75, 4.5, 3.8],
           name: "Left side",
         }}
         geometry={{ args: [1.5, 2, 9.5] }}
@@ -66,7 +64,7 @@ export const PianoStructure = (props: PianoStructureProps) => {
       <PianoBlock
         mesh={{
           castShadow: true,
-          position: [15.7, 4.5, -0.25],
+          position: [size - 0.75, 4.5, 3.8],
           name: "Right side",
         }}
         geometry={{ args: [1.5, 2, 9.5] }}
@@ -76,15 +74,20 @@ export const PianoStructure = (props: PianoStructureProps) => {
       <PianoBlock
         mesh={{
           castShadow: true,
-          position: [2.8, 3.5, -0.3],
-          name: "Right side",
+          position: [size / 2, 3.5, 3.8],
+          name: "Bottom side",
         }}
-        geometry={{ args: [27.3, 0.7, 9.6] }}
+        geometry={{ args: [size, 0.7, 9.5] }}
         material={{ color: pianoColor, roughness: 0, reflectivity: 0.8 }}
       />
-
-      <PowerButton setPower={setPower} power={power} />
-      <PowerLight power={power} />
+      <group position={[0, 6, 0]} name="Top Piano Toolbar">
+        <Logo position={[0.45, 0.04, -0.5]} />
+        <PowerButton
+          setPower={setPower}
+          power={power}
+          position={[size - 1.5, 0, -0.2]}
+        />
+      </group>
     </group>
   );
 };

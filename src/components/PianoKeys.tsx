@@ -36,20 +36,26 @@ export const PianoKeys = (props: PianoKeysProps) => {
   let keyPosition = 0;
   const setKeyPosition = (isBlackKey: boolean, i: number) => {
     if (i === 0) return 0;
+
+    const keySize = 0.88;
+    const whiteKeySize = 0.06;
+    const spaceBetween = 0.06;
+
     if (!keyboardKeys[i - 1].isBlackKey && !isBlackKey) {
-      keyPosition = keyPosition + 0.91;
+      // if its double white, key + spaceBetween
+      keyPosition = keyPosition + keySize + spaceBetween;
     }
     if (isBlackKey) {
-      keyPosition = keyPosition + 0.95;
+      keyPosition = keyPosition + keySize + spaceBetween;
     } else {
-      keyPosition = keyPosition + 0.16;
+      keyPosition = keyPosition + whiteKeySize + spaceBetween;
     }
 
     return keyPosition;
   };
 
   return (
-    <group name="Piano Keys" position={[-9.25, 3.1, -3.2]}>
+    <group name="Piano Keys" position={[1.5, 3, 1]}>
       {keyboardKeys.map(({ isBlackKey, id, name, keys }, i) => (
         <PianoKey
           key={name}

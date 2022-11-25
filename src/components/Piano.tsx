@@ -25,6 +25,11 @@ const keyboardControlKeys = keyboardKeys.map((keyboardKey) => {
 export const Piano = (props: GroupProps) => {
   const [isPressingDown, setIsPressingDown] = useState(false);
   const [power, setPower] = useState(false);
+  const [size, setSize] = useState<number>(0);
+
+  useEffect(() => {
+    setSize(keyboardKeys.filter((key) => !key.isBlackKey).length * 1.06 + 3);
+  }, []);
 
   // ********** Leva GUI controls **********
   const { instrument } = useControls("Instruments", {
@@ -45,8 +50,13 @@ export const Piano = (props: GroupProps) => {
   };
 
   return (
-    <group {...props}>
-      <PianoStructure setPower={setPower} power={power} pianoColor={color} />
+    <group {...props} position={[-size / 2, 0, 0]}>
+      <PianoStructure
+        size={size}
+        setPower={setPower}
+        power={power}
+        pianoColor={color}
+      />
       <SoundfontProvider
         instrumentName={instrument}
         audioContext={audioContext}
