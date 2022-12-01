@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import React, { Suspense, useRef } from "react";
+import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 
 import { Piano } from "./Piano";
@@ -23,28 +23,12 @@ export const Scene = (props: any) => {
     }
   );
 
-  // Lean in to the piano camera position animations
-  useFrame(({ camera, mouse }) => {
-    if (isMobile) return;
-    camera.position.x = THREE.MathUtils.lerp(camera.position.x, mouse.x, 0.1);
-    camera.rotation.x = THREE.MathUtils.lerp(
-      camera.rotation.x,
-      mouse.y / 2,
-      0.5
-    );
-    camera.position.y = THREE.MathUtils.lerp(53, mouse.y * 1, 0.5);
-    camera.position.z = THREE.MathUtils.lerp(40, mouse.y * 18, 0.6);
-    camera.lookAt(0, 0, 0);
-    return null;
-  });
-
   // Light on pointer
   useFrame(({ mouse }) => {
     if (isMobile) return;
 
     if (cursorLightRef.current) {
       cursorLightRef.current.position.x = mouse.x * 16;
-
       cursorLightRef.current.position.z = -mouse.y * 10;
     }
 
@@ -90,48 +74,30 @@ export const Scene = (props: any) => {
         <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
       </pointLight>
 
-      <Suspense fallback={null}>
-        {/********** Back Wall ************/}
-        <StagePlane rotation-x={0} position={[0, 15, -11]} size={[80, 50]} />
+      {/********** Back Wall ************/}
+      <StagePlane rotation-x={0} position={[0, 15, -11]} size={[80, 50]} />
 
-        {/********** Left Wall ************/}
-        <StagePlane
-          rotation-x={0}
-          rotation-y={Math.PI * 0.5}
-          position={[-39, 15, 20]}
-          size={[80, 30]}
-        />
-
-        {/********** Right Wall ************/}
-        <StagePlane
-          rotation-x={0}
-          rotation-y={Math.PI * -0.5}
-          position={[39, 15, 20]}
-          size={[80, 30]}
-        />
-
-        {/********** Floor ************/}
-        <StagePlane position={[0, 0, 24]} size={[80, 70]} />
-
-        {/********** Piano ************/}
-        <Piano position={[-3, 0, 0]} />
-
-        {/********** Presentation ************/}
-        {/* {showPresentation && (
-      <Presentation
-        intensity={intensity}
-        setIntensity={setIntensity}
-        showPresentation={showPresentation}
+      {/********** Left Wall ************/}
+      <StagePlane
+        rotation-x={0}
+        rotation-y={Math.PI * 0.5}
+        position={[-39, 15, 20]}
+        size={[80, 30]}
       />
-    )} */}
-        {/********** Helpers ************/}
-        {/* {cursorLightRef.current && (
-        <pointLightHelper
-          args={[cursorLightRef.current, 5, "white"]}
-        ></pointLightHelper>
-      )} */}
-        {/* <axesHelper args={[10]} /> */}
-      </Suspense>
+
+      {/********** Right Wall ************/}
+      <StagePlane
+        rotation-x={0}
+        rotation-y={Math.PI * -0.5}
+        position={[39, 15, 20]}
+        size={[80, 30]}
+      />
+
+      {/********** Floor ************/}
+      <StagePlane position={[0, 0, 24]} size={[80, 70]} />
+
+      {/********** Piano ************/}
+      <Piano />
     </>
   );
 };
