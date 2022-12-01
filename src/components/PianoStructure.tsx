@@ -15,6 +15,7 @@ import { DialsArea } from "./LevelDial";
 import { ColorRepresentation } from "three";
 import { PianoContext } from "./PianoContext";
 
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 type PianoStructureProps = GroupProps & {
   size: number;
   pianoColor?: Color;
@@ -64,6 +65,7 @@ export const PianoStructure = (props: PianoStructureProps) => {
       camera.position.z = THREE.MathUtils.lerp(camera.position.z, 3, 0.09);
       camera.lookAt(5, 0, 0);
     } else {
+      if (isMobile) return;
       camera.rotation.x = THREE.MathUtils.lerp(
         camera.rotation.x,
         mouse.y / 2,
