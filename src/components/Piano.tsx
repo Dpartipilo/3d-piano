@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { KeyboardControls } from "@react-three/drei";
 import SoundfontProvider from "../providers/SoundfontProvider";
@@ -9,6 +9,7 @@ import { instrumentsList, keyboardKeys } from "../misc";
 import { PianoStructure } from "./PianoStructure";
 import { GroupProps } from "@react-three/fiber";
 import { PianoKeys } from "./PianoKeys";
+import { PianoProvider } from "./PianoProvider";
 
 const audioContext = new AudioContext();
 
@@ -23,13 +24,15 @@ const keyboardControlKeys = keyboardKeys.map((keyboardKey) => {
 });
 
 export const Piano = (props: GroupProps) => {
-  const [isPressingDown, setIsPressingDown] = useState(false);
-  const [power, setPower] = useState(false);
   const [size, setSize] = useState<number>(0);
 
+  const filteredKeys = useMemo(
+    () => keyboardKeys.filter((key) => !key.isBlackKey).length * 1.06 + 3,
+    []
+  );
   useEffect(() => {
-    setSize(keyboardKeys.filter((key) => !key.isBlackKey).length * 1.06 + 3);
-  }, []);
+    setSize(filteredKeys);
+  }, [filteredKeys]);
 
   // ********** Leva GUI controls **********
   const { instrument } = useControls("Instruments", {
@@ -39,42 +42,37 @@ export const Piano = (props: GroupProps) => {
     },
   });
 
-  const { color } = useControls("Piano color", {
+  const { color, lightColor } = useControls("Piano color", {
     color: "#1f1f1e",
+    lightColor: "#ff0000",
   });
 
   // **************************************
 
-  const handlePressingDown = (pressing: boolean) => {
-    setIsPressingDown(pressing);
-  };
-
   return (
-    <group {...props} position={[-size / 2, 0, 0]}>
-      <PianoStructure
-        size={size}
-        setPower={setPower}
-        power={power}
-        pianoColor={color}
-      />
-      <SoundfontProvider
-        instrumentName={instrument}
-        audioContext={audioContext}
-        hostname={"https://d1pzp51pvbm36p.cloudfront.net"}
-        render={({ isLoading, playNote, stopNote }: SoundfontProviderProps) => (
-          <KeyboardControls
-            map={[...keyboardControlKeys, { name: "Sustain", keys: ["Space"] }]}
-          >
-            <PianoKeys
-              power={power}
-              playNote={playNote}
-              stopNote={stopNote}
-              isPressingDown={isPressingDown}
-              handlePressingDown={handlePressingDown}
-            />
-          </KeyboardControls>
-        )}
-      />
-    </group>
+    <PianoProvider>
+      <group {...props} position={[-size / 2, 0, 0]}>
+        <PianoStructure
+          size={size}
+          pianoColor={color}
+          lightColor={lightColor}
+        />
+        <SoundfontProvider
+          instrumentName={instrument}
+          audioContext={audioContext}
+          hostname={"https://d1pzp51pvbm36p.cloudfront.net"}
+          render={({ playNote, stopNote }: SoundfontProviderProps) => (
+            <KeyboardControls
+              map={[
+                ...keyboardControlKeys,
+                { name: "Sustain", keys: ["Space"] },
+              ]}
+            >
+              <PianoKeys playNote={playNote} stopNote={stopNote} />
+            </KeyboardControls>
+          )}
+        />
+      </group>
+    </PianoProvider>
   );
 };
