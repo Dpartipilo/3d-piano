@@ -1,34 +1,8 @@
 import * as THREE from "three";
-import React, { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { ThreeEvent } from "@react-three/fiber";
 import { useKeyboardControls, Text } from "@react-three/drei";
-
-// type SoundProps = {
-//   url?: string;
-// };
-
-// const Sound = (props: SoundProps) => {
-//   const sound = useRef<THREE.PositionalAudio>(null);
-//   const { camera } = useThree<any>();
-//   const [listener] = useState(() => new THREE.AudioListener());
-//   const buffer = useLoader<AudioBuffer, string>(
-//     THREE.AudioLoader,
-//     "piano-keys/key01.mp3"
-//   );
-
-//   useEffect(() => {
-//     sound?.current?.setBuffer(buffer);
-//     sound?.current?.setRefDistance(1);
-//     sound?.current?.setLoop(true);
-//     sound?.current?.play();
-
-//     camera.add(listener);
-//     console.log(sound);
-//     return () => camera.remove(listener);
-//   }, []);
-
-//   return <positionalAudio ref={sound} args={[listener]} />;
-// };
+import { PianoContext } from "./PianoContext";
 
 type PianoKeyProps = {
   musicNote: string;
@@ -36,17 +10,8 @@ type PianoKeyProps = {
   isBlackKey: boolean;
   name: string;
   keys: string[];
-  gain?: number;
-  attack?: number;
-  decay?: number;
-  sustain?: number;
-  release?: number;
-  adsr?: number[];
-  duration?: number;
-  loop?: boolean;
   showKeys?: boolean;
   isPressingDown?: boolean;
-  power: boolean;
   playNote: (midiNote: string, options: PlayOptionsProps) => void;
   stopNote: (midiNote: string) => void;
   handlePressingDown: (pressing: boolean) => void;
@@ -67,27 +32,28 @@ export const PianoKey = (props: PianoKeyProps) => {
   const {
     isBlackKey,
     name,
-    gain,
-    attack,
-    decay,
-    sustain,
     keys,
-    release,
     showKeys,
     isPressingDown,
-    power,
     playNote,
     stopNote,
     handlePressingDown,
   } = props;
+  const { power, gain, attack, decay, sustain, release } =
+    useContext(PianoContext);
 
   const [playOptions, setPlayOptions] = useState<PlayOptionsProps>({});
   const pressed = useKeyboardControls((state) => state[name]);
   const sustainKey = useKeyboardControls((state) => state.Sustain);
 
   useEffect(() => {
+    document.addEventListener("mouseup", handleOnPointerUp);
+    return () => document.removeEventListener("mouseup", handleOnPointerUp);
+  }, []);
+
+  useEffect(() => {
     setPlayOptions({
-      gain,
+      gain: gain! + 1,
       attack,
       decay,
       sustain,
@@ -117,7 +83,7 @@ export const PianoKey = (props: PianoKeyProps) => {
     meshRef.current.rotation.x = THREE.MathUtils.lerp(0, 0.06, 1);
   };
 
-  const handleOnPointerUp = (e: ThreeEvent<MouseEvent>) => {
+  const handleOnPointerUp = (e: MouseEvent | ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
     handlePressingDown(false);
     meshRef.current.rotation.x = THREE.MathUtils.lerp(0.06, 0, 1);
