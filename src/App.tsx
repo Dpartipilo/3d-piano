@@ -1,11 +1,10 @@
 import * as THREE from "three";
-import React from "react";
+import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import "./App.css";
 import { OrbitControls } from "@react-three/drei";
 
 import { Scene } from "./components/Scene";
-// import { Presentation } from "./components/Presentation";
 import { Leva } from "leva";
 
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -27,8 +26,11 @@ function App() {
         }}
       >
         {/********** Scene ************/}
-        <Scene />
-
+        <Suspense fallback={null}>
+          <Scene />
+        </Suspense>
+        {/* <axesHelper args={[10]} />
+        <gridHelper args={[50.5, 20, "red", "blue"]} position={[0, 4, 0]} /> */}
         {/********** Dev Camera Controls ************/}
 
         {isMobile ? (
