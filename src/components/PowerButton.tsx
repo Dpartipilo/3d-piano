@@ -1,13 +1,8 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useContext } from "react";
 import * as THREE from "three";
 import { GroupProps } from "@react-three/fiber";
 import { PowerLight } from "./PowerLight";
+import { PianoContext } from "./PianoContext";
 
 const length = 0.9,
   width = 0.6;
@@ -19,19 +14,16 @@ shape.lineTo(length, width);
 shape.lineTo(length, 0);
 shape.lineTo(0, 0);
 
-type PowerButtonProps = GroupProps & {
-  power: boolean;
-  setPower: Dispatch<SetStateAction<boolean>>;
-};
+type PowerButtonProps = GroupProps & {};
 
 export const PowerButton = (props: PowerButtonProps) => {
-  const { power, setPower } = props;
+  const { power, togglePower } = useContext(PianoContext);
   return (
     <group {...props}>
       <mesh
         position={[0, power ? 0 : 0.1, 0]}
         rotation-x={Math.PI * 0.5}
-        onPointerUp={() => setPower(!power)}
+        onClick={() => togglePower()}
       >
         <extrudeGeometry
           args={[
