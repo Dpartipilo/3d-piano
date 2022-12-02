@@ -124,11 +124,12 @@ export const PianoStructure = (props: PianoStructureProps) => {
       <group position={[0, 6, 0]} name="Top Piano Toolbar">
         <Logo position={[0.45, 0.04, -0.5]} />
         <PowerButton position={[size - 1.5, 0, -0.2]} />
-        <group
-          onClick={() => setOnControls(true)}
-          onPointerMissed={() => setOnControls(false)}
-        >
-          <DialsArea position={[12, 0.01, 1.8]} />
+        <group>
+          <DialsArea
+            position={[12, 0.01, 1.8]}
+            onClick={() => setOnControls(true)}
+            onPointerMissed={() => setOnControls(false)}
+          />
 
           <LevelDial
             lightColor={lightColor}
