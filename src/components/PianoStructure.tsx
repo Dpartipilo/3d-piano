@@ -11,7 +11,7 @@ import {
 import { Logo } from "./Logo";
 import { PowerButton } from "./PowerButton";
 import { LevelDial } from "./LevelDial/LevelDial";
-import { DialsArea } from "./LevelDial";
+import { ControlsArea } from "./ControlsArea";
 import { ColorRepresentation } from "three";
 import { PianoContext } from "./PianoContext";
 
@@ -125,7 +125,7 @@ export const PianoStructure = (props: PianoStructureProps) => {
         <Logo position={[0.45, 0.04, -0.5]} />
         <PowerButton position={[size - 1.5, 0, -0.2]} />
         <group>
-          <DialsArea
+          <ControlsArea
             position={[12, 0.01, 1.8]}
             onClick={() => setOnControls(true)}
             onPointerMissed={() => setOnControls(false)}
