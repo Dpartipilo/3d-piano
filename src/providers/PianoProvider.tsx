@@ -1,6 +1,6 @@
 import { ReactElement, useCallback, useMemo, useState } from "react";
 
-import { PianoContext } from "./PianoContext";
+import { PianoContext } from "../components/PianoContext";
 
 type PianoProviderProps = { children?: ReactElement };
 

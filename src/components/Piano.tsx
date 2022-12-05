@@ -9,7 +9,7 @@ import { instrumentsList, keyboardKeys } from "../misc";
 import { PianoStructure } from "./PianoStructure";
 import { GroupProps } from "@react-three/fiber";
 import { PianoKeys } from "./PianoKeys";
-import { PianoProvider } from "./PianoProvider";
+import { PianoProvider } from "../providers/PianoProvider";
 
 const audioContext = new AudioContext();
 
