@@ -10,7 +10,6 @@ type PianoKeyProps = {
   isBlackKey: boolean;
   name: string;
   keys: string[];
-  showKeys?: boolean;
   isPressingDown?: boolean;
   playNote: (midiNote: string, options: PlayOptionsProps) => void;
   stopNote: (midiNote: string) => void;
@@ -33,13 +32,12 @@ export const PianoKey = (props: PianoKeyProps) => {
     isBlackKey,
     name,
     keys,
-    showKeys,
     isPressingDown,
     playNote,
     stopNote,
     handlePressingDown,
   } = props;
-  const { power, gain, attack, decay, sustain, release } =
+  const { power, showShortcuts, gain, attack, decay, sustain, release } =
     useContext(PianoContext);
 
   const [playOptions, setPlayOptions] = useState<PlayOptionsProps>({});
@@ -170,7 +168,7 @@ export const PianoKey = (props: PianoKeyProps) => {
         />
       )}
 
-      {showKeys && (
+      {showShortcuts && (
         <Text
           color={`${isBlackKey ? "white" : "black"}`}
           anchorX="center"

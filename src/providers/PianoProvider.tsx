@@ -6,6 +6,7 @@ type PianoProviderProps = { children?: ReactElement };
 
 export const PianoProvider = ({ children }: PianoProviderProps) => {
   const [power, setPower] = useState(false);
+  const [showShortcuts, setShowShortcuts] = useState(false);
   const [gain, setGain] = useState<number>(0);
   const [attack, setAttack] = useState<number>(0);
   const [decay, setDecay] = useState<number>(0);
@@ -35,16 +36,21 @@ export const PianoProvider = ({ children }: PianoProviderProps) => {
   const setSoundRealease = useCallback((realease: number) => {
     setRealease(realease);
   }, []);
+  const toggleShowShortcuts = useCallback(() => {
+    setShowShortcuts(!showShortcuts);
+  }, [showShortcuts]);
 
   const providerValue = useMemo(() => {
     return {
       power,
+      showShortcuts,
       gain,
       attack,
       decay,
       sustain,
       release,
       togglePower,
+      toggleShowShortcuts,
       setSoundGain,
       setSoundAttack,
       setSoundDecay,
@@ -53,12 +59,14 @@ export const PianoProvider = ({ children }: PianoProviderProps) => {
     };
   }, [
     power,
+    showShortcuts,
     gain,
     attack,
     decay,
     sustain,
     release,
     togglePower,
+    toggleShowShortcuts,
     setSoundGain,
     setSoundAttack,
     setSoundDecay,

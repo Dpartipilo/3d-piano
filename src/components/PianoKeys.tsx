@@ -14,9 +14,6 @@ export const PianoKeys = (props: PianoKeysProps) => {
   const [isPressingDown, setIsPressingDown] = useState(false);
 
   // ********** Leva GUI controls **********
-  const { showKeys } = useControls("Show keyboard shortcuts", {
-    showKeys: false,
-  });
 
   let keyPosition = 0;
   const setKeyPosition = (isBlackKey: boolean, i: number) => {
@@ -50,12 +47,15 @@ export const PianoKeys = (props: PianoKeysProps) => {
           key={name}
           isBlackKey={isBlackKey}
           musicNote={id}
-          position={[setKeyPosition(isBlackKey, i), isBlackKey ? 1.5 : 0.6, 0]}
+          position={[
+            setKeyPosition(isBlackKey, i),
+            isBlackKey ? 1.5 : 0.6,
+            isBlackKey ? 0.5 : 0,
+          ]}
           name={name}
           keys={keys}
           playNote={playNote}
           stopNote={stopNote}
-          showKeys={showKeys}
           isPressingDown={isPressingDown}
           handlePressingDown={handlePressingDown}
         />

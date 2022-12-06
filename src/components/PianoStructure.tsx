@@ -14,6 +14,8 @@ import { LevelDial } from "./LevelDial/LevelDial";
 import { ControlsArea } from "./ControlsArea";
 import { ColorRepresentation } from "three";
 import { PianoContext } from "./PianoContext";
+import { Screen } from "./Screen";
+import { ScreenControls } from "./ScreenControls";
 
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 type PianoStructureProps = GroupProps & {
@@ -24,6 +26,7 @@ type PianoStructureProps = GroupProps & {
 
 type PianoBlockProps = {
   mesh?: MeshProps;
+  group?: GroupProps;
   material?: MeshPhysicalMaterialProps;
   geometry?: BoxGeometryProps;
   children?: ReactElement;
@@ -31,20 +34,23 @@ type PianoBlockProps = {
 
 const PianoBlock = ({
   mesh,
+  group,
   geometry,
   material,
   children,
 }: PianoBlockProps) => (
-  <mesh
-    {...mesh}
-    onPointerDown={(e) => {
-      e.stopPropagation();
-    }}
-  >
-    <boxGeometry {...geometry} />
-    <meshPhysicalMaterial {...material} />
+  <group {...group}>
+    <mesh
+      {...mesh}
+      onPointerDown={(e) => {
+        e.stopPropagation();
+      }}
+    >
+      <boxGeometry {...geometry} />
+      <meshPhysicalMaterial {...material} />
+    </mesh>
     {children}
-  </mesh>
+  </group>
 );
 
 export const PianoStructure = (props: PianoStructureProps) => {
@@ -83,14 +89,82 @@ export const PianoStructure = (props: PianoStructureProps) => {
   return (
     <group {...props} name="Piano body">
       <PianoBlock
+        group={{
+          name: "Back piece",
+          position: [0, -0.1, 0],
+        }}
         mesh={{
           castShadow: true,
           position: [size / 2, 4.75, 0],
-          name: "Back piece",
         }}
-        geometry={{ args: [size, 2.5, 2] }}
+        geometry={{ args: [size, 3, 2.8] }}
         material={{ color: pianoColor, roughness: 0.4, reflectivity: 0.3 }}
-      />
+      >
+        <group position={[0, 6.3, 0]} name="Top Piano Toolbar">
+          <Logo position={[0.45, 0.04, -0.5]} />
+          <PowerButton position={[size - 1.5, 0, -0.2]} />
+          <group>
+            <ControlsArea
+              position={[14, 0.01, 1.8]}
+              onClick={() => setOnControls(true)}
+              onPointerMissed={() => setOnControls(false)}
+            />
+
+            <Screen position={[10.5, -0.7, -0.6]} />
+            <ScreenControls position={[7.82, -0.02, 0.65]} />
+
+            <LevelDial
+              lightColor={lightColor}
+              position={[16, 0.2, 0]}
+              maxValue={2}
+              minValue={0}
+              step={0.1}
+              label="Attack"
+              setValue={setSoundAttack}
+            />
+
+            <LevelDial
+              lightColor={lightColor}
+              position={[17.5, 0.2, 0]}
+              maxValue={2}
+              minValue={0}
+              step={0.1}
+              label="Decay"
+              setValue={setSoundDecay}
+            />
+
+            <LevelDial
+              lightColor={lightColor}
+              position={[19, 0.2, 0]}
+              maxValue={2}
+              minValue={0}
+              step={0.1}
+              label="Sustain"
+              setValue={setSoundSustain}
+            />
+
+            <LevelDial
+              lightColor={lightColor}
+              position={[20.5, 0.2, 0]}
+              maxValue={5}
+              minValue={0}
+              step={0.1}
+              label="Release"
+              setValue={setSoundRealease}
+            />
+
+            <LevelDial
+              lightColor={lightColor}
+              position={[23, 0.2, 0]}
+              maxValue={5}
+              minValue={0}
+              step={0.1}
+              label="Gain"
+              setValue={setSoundGain}
+            />
+          </group>
+        </group>
+      </PianoBlock>
 
       <PianoBlock
         mesh={{
@@ -118,70 +192,9 @@ export const PianoStructure = (props: PianoStructureProps) => {
           position: [size / 2, 3.5, 3.8],
           name: "Bottom side",
         }}
-        geometry={{ args: [size, 0.7, 9.5] }}
+        geometry={{ args: [size - 0.001, 0.7, 9.5] }}
         material={{ color: pianoColor, roughness: 0, reflectivity: 0.8 }}
       />
-      <group position={[0, 6, 0]} name="Top Piano Toolbar">
-        <Logo position={[0.45, 0.04, -0.5]} />
-        <PowerButton position={[size - 1.5, 0, -0.2]} />
-        <group>
-          <ControlsArea
-            position={[12, 0.01, 1.8]}
-            onClick={() => setOnControls(true)}
-            onPointerMissed={() => setOnControls(false)}
-          />
-
-          <LevelDial
-            lightColor={lightColor}
-            position={[14, 0.2, 0]}
-            maxValue={2}
-            minValue={0}
-            step={0.1}
-            label="Attack"
-            setValue={setSoundAttack}
-          />
-
-          <LevelDial
-            lightColor={lightColor}
-            position={[15.5, 0.2, 0]}
-            maxValue={2}
-            minValue={0}
-            step={0.1}
-            label="Decay"
-            setValue={setSoundDecay}
-          />
-
-          <LevelDial
-            lightColor={lightColor}
-            position={[17, 0.2, 0]}
-            maxValue={2}
-            minValue={0}
-            step={0.1}
-            label="Sustain"
-            setValue={setSoundSustain}
-          />
-
-          <LevelDial
-            lightColor={lightColor}
-            position={[18.5, 0.2, 0]}
-            maxValue={5}
-            minValue={0}
-            step={0.1}
-            label="Release"
-            setValue={setSoundRealease}
-          />
-
-          <LevelDial
-            lightColor={lightColor}
-            position={[21, 0.2, 0]}
-            maxValue={5}
-            minValue={0}
-            step={0.1}
-            label="Gain"
-            setValue={setSoundGain}
-          />
-        </group>
-      </group>
     </group>
   );
 };
