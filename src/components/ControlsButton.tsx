@@ -1,8 +1,7 @@
 import * as THREE from "three";
 import { GroupProps, ThreeEvent } from "@react-three/fiber";
-import { useContext, useState } from "react";
+import { ReactElement, useContext, useState } from "react";
 import { PianoContext } from "./PianoContext";
-import { Svg } from "@react-three/drei";
 
 const width = 1.2,
   height = 0.6;
@@ -15,14 +14,14 @@ shape.lineTo(width, 0);
 shape.lineTo(0, 0);
 
 type ControlsButtonProps = {
-  iconURL?: string;
+  icon?: ReactElement;
   action?: () => void;
 } & GroupProps;
 
 export const ControlsButton = (props: ControlsButtonProps) => {
-  const { action, iconURL } = props;
+  const { action, icon } = props;
   const [clicked, setClicked] = useState(false);
-  const { power, showShortcuts } = useContext(PianoContext);
+  const { power } = useContext(PianoContext);
 
   const handleOnPointerDown = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
@@ -45,14 +44,8 @@ export const ControlsButton = (props: ControlsButtonProps) => {
         rotation-x={Math.PI * -0.5}
         position={[0.6, clicked ? 0.075 : 0.16, 0.3]}
       >
-        {iconURL && (
-          <Svg
-            src={iconURL}
-            position={[-0.3, 0.3, 0.005]}
-            scale={0.03}
-            fillMaterial={{ color: showShortcuts ? "#c71a1a" : "#300404" }}
-          />
-        )}
+        {icon ? icon : null}
+
         <planeGeometry args={[1.2, 0.6]} />
         <meshStandardMaterial color={"#282828"} roughness={0.6} />
       </mesh>
@@ -74,7 +67,7 @@ export const ControlsButton = (props: ControlsButtonProps) => {
         />
 
         <meshPhysicalMaterial
-          color={"red"}
+          color={power ? "#c71a1a" : "#300404"}
           emissive={power ? "#c71a1a" : "#300404"}
           emissiveIntensity={0.5}
           transparent={true}
