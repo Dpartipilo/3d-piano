@@ -81,8 +81,6 @@ export const SoundfontProvider = (props: SoundfontProviderProps) => {
       const nextInstrument: Soundfont.InstrumentName =
         instrumentsList[currentInstrumentIndex];
 
-      console.log("nextInstrument", nextInstrument);
-
       setSelectedInstrument(nextInstrument);
       loadInstrument(nextInstrument);
     },
