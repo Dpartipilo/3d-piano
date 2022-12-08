@@ -15,6 +15,7 @@ export const PianoProvider = ({ children }: PianoProviderProps) => {
 
   const togglePower = useCallback(() => {
     setPower(!power);
+    setShowShortcuts(false);
   }, [power]);
 
   const setSoundGain = useCallback((gain: number) => {
@@ -37,8 +38,8 @@ export const PianoProvider = ({ children }: PianoProviderProps) => {
     setRealease(realease);
   }, []);
   const toggleShowShortcuts = useCallback(() => {
-    setShowShortcuts(!showShortcuts);
-  }, [showShortcuts]);
+    power && setShowShortcuts(!showShortcuts);
+  }, [showShortcuts, power]);
 
   const providerValue = useMemo(() => {
     return {

@@ -1,7 +1,8 @@
 import * as THREE from "three";
 import { GroupProps } from "@react-three/fiber";
-import { useContext, useMemo } from "react";
+import { useContext } from "react";
 import { PianoContext } from "./PianoContext";
+import { SoundfontContext } from "../providers/SoundfontContext";
 import { Text } from "@react-three/drei";
 type ScreenProps = GroupProps & {
   x?: number;
@@ -39,8 +40,8 @@ const extrudeSettings = {
 };
 
 export const Screen = (props: ScreenProps) => {
-  const { x = 1, y = 1, width = 9, height = 1.6, radius = 0.1 } = props;
   const { power, showShortcuts } = useContext(PianoContext);
+  const { selectedInstrument } = useContext(SoundfontContext);
 
   return (
     <group {...props} rotation-x={Math.PI * 0.1}>
@@ -74,7 +75,10 @@ export const Screen = (props: ScreenProps) => {
               rotation-x={Math.PI * 0.01}
               position={[-0.4, 0, 0.01]}
             >
-              {"Grand Piano"}
+              {selectedInstrument
+                ?.split("_")
+                .map((word) => word.replace(word[0], word[0].toUpperCase()))
+                .join(" ")}
             </Text>
 
             <Text
