@@ -1,4 +1,6 @@
-export const instrumentsList = [
+import Soundfont from "soundfont-player";
+
+export const instrumentsList: Soundfont.InstrumentName[] = [
   "accordion",
   "acoustic_bass",
   "acoustic_grand_piano",

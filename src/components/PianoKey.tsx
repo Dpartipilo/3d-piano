@@ -1,8 +1,9 @@
 import * as THREE from "three";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { ThreeEvent } from "@react-three/fiber";
 import { useKeyboardControls, Text } from "@react-three/drei";
 import { PianoContext } from "./PianoContext";
+import { SoundfontContext } from "../providers/SoundfontContext";
 
 type PianoKeyProps = {
   musicNote: string;
@@ -11,8 +12,6 @@ type PianoKeyProps = {
   name: string;
   keys: string[];
   isPressingDown?: boolean;
-  playNote: (midiNote: string, options: PlayOptionsProps) => void;
-  stopNote: (midiNote: string) => void;
   handlePressingDown: (pressing: boolean) => void;
 };
 
@@ -22,32 +21,20 @@ type PlayOptionsProps = {
   decay?: number; //the decay time of the amplitude envelope
   sustain?: number; //the sustain gain value of the amplitude envelope
   release?: number; //the release time of the amplitude envelope
-  adsr?: number[]; //an array of [attack, decay, sustain, release]. Overrides other parameters.
+  adsr?: [number, number, number, number]; //an array of [attack, decay, sustain, release]. Overrides other parameters.
   duration?: number; //set the playing duration in seconds of the buffer(s)
   loop?: boolean; //set to true to loop the audio buffer
 };
 
 export const PianoKey = (props: PianoKeyProps) => {
-  const {
-    isBlackKey,
-    name,
-    keys,
-    isPressingDown,
-    playNote,
-    stopNote,
-    handlePressingDown,
-  } = props;
+  const { isBlackKey, name, keys, isPressingDown, handlePressingDown } = props;
   const { power, showShortcuts, gain, attack, decay, sustain, release } =
     useContext(PianoContext);
+  const { playNote, stopNote } = useContext(SoundfontContext);
 
   const [playOptions, setPlayOptions] = useState<PlayOptionsProps>({});
   const pressed = useKeyboardControls((state) => state[name]);
   const sustainKey = useKeyboardControls((state) => state.Sustain);
-
-  useEffect(() => {
-    document.addEventListener("mouseup", handleOnPointerUp);
-    return () => document.removeEventListener("mouseup", handleOnPointerUp);
-  }, []);
 
   useEffect(() => {
     setPlayOptions({
@@ -66,32 +53,44 @@ export const PianoKey = (props: PianoKeyProps) => {
     const key = meshRef.current;
     if (pressed) {
       key.rotation.x = THREE.MathUtils.lerp(0, 0.06, 1);
-      power && playNote(name, playOptions);
+      power && playNote?.(name, playOptions);
     } else {
-      power && stopNote(name);
+      power && stopNote?.(name);
       key.rotation.x = THREE.MathUtils.lerp(0.06, 0, 1);
     }
-  }, [pressed, name, playOptions, power, playNote, stopNote]);
+  }, [pressed, name, power, playOptions, playNote, stopNote]);
 
   // ********** Handlers **********
   const handleOnPointerDown = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     handlePressingDown(true);
-    power && playNote(name, playOptions);
+    power && playNote?.(name, playOptions);
     meshRef.current.rotation.x = THREE.MathUtils.lerp(0, 0.06, 1);
   };
 
-  const handleOnPointerUp = (e: MouseEvent | ThreeEvent<PointerEvent>) => {
-    e.stopPropagation();
-    handlePressingDown(false);
-    meshRef.current.rotation.x = THREE.MathUtils.lerp(0.06, 0, 1);
-    stopNote(name);
-  };
+  const handleOnPointerUp = useCallback(
+    (e: MouseEvent | ThreeEvent<PointerEvent>) => {
+      e.stopPropagation();
+      handlePressingDown(false);
+      meshRef.current.rotation.x = THREE.MathUtils.lerp(0.06, 0, 1);
+      stopNote?.(name);
+    },
+    [handlePressingDown, name, stopNote]
+  );
+
+  useEffect(() => {
+    const stop = () => {
+      handlePressingDown(false);
+      stopNote?.(name);
+    };
+    document.addEventListener("mouseup", stop);
+    return () => document.removeEventListener("mouseup", stop);
+  }, [name, stopNote, handlePressingDown]);
 
   const handleOnPoinerOut = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     meshRef.current.rotation.x = THREE.MathUtils.lerp(0.06, 0, 1);
-    stopNote(name);
+    stopNote?.(name);
   };
 
   const bk = {

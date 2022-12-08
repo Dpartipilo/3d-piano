@@ -33,12 +33,3 @@ export const PianoContext = createContext<TContext>({
   setSoundSustain: () => null,
   setSoundRealease: () => null,
 });
-
-// type PlayOptionsProps = {
-//   gain?: number; //float between 0 to 1
-//   attack?: number; //the attack time of the amplitude envelope
-//   decay?: number; //the decay time of the amplitude envelope
-//   sustain?: number; //the sustain gain value of the amplitude envelope
-//   release?: number; //the release time of the amplitude envelope
-//   adsr?: number[]; //an array of [attack, decay, sustain, release]. Overrides other parameters.
-// };

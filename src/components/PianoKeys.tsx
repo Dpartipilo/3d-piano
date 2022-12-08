@@ -1,19 +1,9 @@
 import { useState } from "react";
-import { useControls } from "leva";
 import { keyboardKeys } from "../misc";
 import { PianoKey } from "./PianoKey";
 
-export type PianoKeysProps = {
-  playNote: () => void;
-  stopNote: () => void;
-};
-
-export const PianoKeys = (props: PianoKeysProps) => {
-  const { playNote, stopNote } = props;
-
+export const PianoKeys = () => {
   const [isPressingDown, setIsPressingDown] = useState(false);
-
-  // ********** Leva GUI controls **********
 
   let keyPosition = 0;
   const setKeyPosition = (isBlackKey: boolean, i: number) => {
@@ -54,8 +44,6 @@ export const PianoKeys = (props: PianoKeysProps) => {
           ]}
           name={name}
           keys={keys}
-          playNote={playNote}
-          stopNote={stopNote}
           isPressingDown={isPressingDown}
           handlePressingDown={handlePressingDown}
         />
