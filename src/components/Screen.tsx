@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { GroupProps } from "@react-three/fiber";
+import { Color, GroupProps } from "@react-three/fiber";
 import { useContext } from "react";
 import { PianoContext } from "./PianoContext";
 import { SoundfontContext } from "../providers/SoundfontContext";
@@ -10,6 +10,7 @@ type ScreenProps = GroupProps & {
   width?: number;
   height?: number;
   radius?: number;
+  pianoColor?: Color;
 };
 
 const frameX = 3;
@@ -40,6 +41,7 @@ const extrudeSettings = {
 };
 
 export const Screen = (props: ScreenProps) => {
+  const { pianoColor } = props;
   const { power, showShortcuts, attack, decay, sustain, release, gain } =
     useContext(PianoContext);
   const { selectedInstrument } = useContext(SoundfontContext);
@@ -48,7 +50,11 @@ export const Screen = (props: ScreenProps) => {
     <group {...props} rotation-x={Math.PI * 0.1}>
       <mesh rotation-x={Math.PI * -0.5}>
         <extrudeGeometry args={[frame, extrudeSettings]} />
-        <meshStandardMaterial color={"#1f1f1e"} roughness={0.6} metalness={0} />
+        <meshStandardMaterial
+          color={pianoColor}
+          roughness={0.6}
+          metalness={0}
+        />
       </mesh>
 
       <mesh position={[0, 0.95, 0]} rotation-x={Math.PI * -0.5}>

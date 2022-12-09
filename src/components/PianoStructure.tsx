@@ -110,8 +110,11 @@ export const PianoStructure = (props: PianoStructureProps) => {
               onPointerMissed={() => setOnControls(false)}
             />
 
-            <Screen position={[10.5, -0.7, -0.6]} />
-            <ScreenControls position={[7.82, -0.02, 0.65]} />
+            <Screen pianoColor={pianoColor} position={[10.5, -0.7, -0.6]} />
+            <ScreenControls
+              lightColor={lightColor}
+              position={[7.82, -0.02, 0.65]}
+            />
 
             <LevelDial
               lightColor={lightColor}

@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { GroupProps, ThreeEvent } from "@react-three/fiber";
 import { ReactElement, useContext, useState } from "react";
 import { PianoContext } from "./PianoContext";
-
+import { ColorRepresentation } from "three";
 const width = 1.2,
   height = 0.6;
 
@@ -14,12 +14,13 @@ shape.lineTo(width, 0);
 shape.lineTo(0, 0);
 
 type ControlsButtonProps = {
+  lightColor?: ColorRepresentation;
   icon?: ReactElement;
   action?: () => void;
 } & GroupProps;
 
 export const ControlsButton = (props: ControlsButtonProps) => {
-  const { action, icon } = props;
+  const { action, icon, lightColor } = props;
   const [clicked, setClicked] = useState(false);
   const { power } = useContext(PianoContext);
 
@@ -67,8 +68,10 @@ export const ControlsButton = (props: ControlsButtonProps) => {
         />
 
         <meshPhysicalMaterial
-          color={power ? "#c71a1a" : "#300404"}
-          emissive={power ? "#c71a1a" : "#300404"}
+          color={power ? lightColor : "#300404"}
+          emissive={power ? lightColor : "#300404"}
+          // color={power ? "#c71a1a" : "#300404"}
+          // emissive={power ? "#c71a1a" : "#300404"}
           emissiveIntensity={0.5}
           transparent={true}
           transmission={1}
