@@ -116,7 +116,7 @@ export const PianoStructure = (props: PianoStructureProps) => {
             <LevelDial
               lightColor={lightColor}
               position={[16, 0.2, 0]}
-              maxValue={2}
+              maxValue={1}
               minValue={0}
               step={0.1}
               label="Attack"
@@ -126,7 +126,7 @@ export const PianoStructure = (props: PianoStructureProps) => {
             <LevelDial
               lightColor={lightColor}
               position={[17.5, 0.2, 0]}
-              maxValue={2}
+              maxValue={1}
               minValue={0}
               step={0.1}
               label="Decay"
@@ -136,7 +136,7 @@ export const PianoStructure = (props: PianoStructureProps) => {
             <LevelDial
               lightColor={lightColor}
               position={[19, 0.2, 0]}
-              maxValue={2}
+              maxValue={1}
               minValue={0}
               step={0.1}
               label="Sustain"
@@ -146,7 +146,7 @@ export const PianoStructure = (props: PianoStructureProps) => {
             <LevelDial
               lightColor={lightColor}
               position={[20.5, 0.2, 0]}
-              maxValue={5}
+              maxValue={1}
               minValue={0}
               step={0.1}
               label="Release"
@@ -156,7 +156,7 @@ export const PianoStructure = (props: PianoStructureProps) => {
             <LevelDial
               lightColor={lightColor}
               position={[23, 0.2, 0]}
-              maxValue={5}
+              maxValue={3}
               minValue={0}
               step={0.1}
               label="Gain"

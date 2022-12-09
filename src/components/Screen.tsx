@@ -40,7 +40,8 @@ const extrudeSettings = {
 };
 
 export const Screen = (props: ScreenProps) => {
-  const { power, showShortcuts } = useContext(PianoContext);
+  const { power, showShortcuts, attack, decay, sustain, release, gain } =
+    useContext(PianoContext);
   const { selectedInstrument } = useContext(SoundfontContext);
 
   return (
@@ -71,9 +72,9 @@ export const Screen = (props: ScreenProps) => {
               color={"black"}
               anchorX="center"
               anchorY="middle"
-              fontSize={0.4}
+              fontSize={0.35}
               rotation-x={Math.PI * 0.01}
-              position={[-0.4, 0, 0.01]}
+              position={[-0.7, 0.1, 0.01]}
             >
               {selectedInstrument
                 ?.split("_")
@@ -85,9 +86,63 @@ export const Screen = (props: ScreenProps) => {
               color={"black"}
               anchorX="center"
               anchorY="middle"
-              fontSize={0.2}
+              fontSize={0.21}
               rotation-x={Math.PI * 0.01}
-              position={[2, 0.4, 0.01]}
+              position={[2.29, 0.45, 0.01]}
+            >
+              {`Gain: ${gain?.toFixed(1)}`}
+            </Text>
+
+            <Text
+              color={"black"}
+              anchorX="center"
+              anchorY="middle"
+              fontSize={0.21}
+              rotation-x={Math.PI * 0.01}
+              position={[2.19, 0.15, 0.01]}
+            >
+              {`Attack: ${attack?.toFixed(1)}`}
+            </Text>
+
+            <Text
+              color={"black"}
+              anchorX="center"
+              anchorY="middle"
+              fontSize={0.21}
+              rotation-x={Math.PI * 0.01}
+              position={[2.2, -0.05, 0.01]}
+            >
+              {`Decay: ${decay?.toFixed(1)}`}
+            </Text>
+
+            <Text
+              color={"black"}
+              anchorX="center"
+              anchorY="middle"
+              fontSize={0.21}
+              rotation-x={Math.PI * 0.01}
+              position={[2.13, -0.25, 0.01]}
+            >
+              {`Sustain: ${sustain?.toFixed(1)}`}
+            </Text>
+            <Text
+              color={"black"}
+              anchorX="center"
+              anchorY="middle"
+              fontSize={0.21}
+              rotation-x={Math.PI * 0.01}
+              position={[2.11, -0.45, 0.01]}
+            >
+              {`Release: ${release?.toFixed(1)}`}
+            </Text>
+
+            <Text
+              color={"black"}
+              anchorX="center"
+              anchorY="middle"
+              fontSize={0.21}
+              rotation-x={Math.PI * 0.01}
+              position={[-2.05, -0.45, 0.01]}
             >
               {`Shortcuts: ${showShortcuts ? "on" : "off"}`}
             </Text>
