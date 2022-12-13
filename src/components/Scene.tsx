@@ -5,6 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import { Piano } from "./Piano";
 import { StagePlane } from "./StagePlane";
 import { useControls } from "leva";
+import { Plane } from "@react-three/drei";
 
 export const Scene = (props: any) => {
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -23,9 +24,9 @@ export const Scene = (props: any) => {
   //   }
   // );
 
-  const intensity = 0.8;
-  const distance = 18;
-  const penumbra = 0.7;
+  const intensity = 0.9;
+  const distance = 20;
+  const penumbra = 0.2;
   const angle = 1;
   const x = 0.5;
   const y = 10;
@@ -50,7 +51,7 @@ export const Scene = (props: any) => {
     <>
       {/********** Lights ************/}
       <ambientLight args={[0xffffff, 0.4]} />
-      <hemisphereLight args={[color, 0x080820, 0.4]} />
+      {/* <hemisphereLight args={[color, 0x080820, 0.1]} /> */}
 
       {/* {isMobile ? null : (
         <pointLight
@@ -75,35 +76,35 @@ export const Scene = (props: any) => {
         <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
       </spotLight>
 
-      <pointLight args={[color, 3, 14, 2]} position={[15, 7, -1]}>
+      <pointLight args={[color, 3, 14, 2]} position={[16, 7, 0]}>
         <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
       </pointLight>
 
-      <pointLight args={[color, 3, 14, 2]} position={[-15, 7, -1]}>
+      <pointLight args={[color, 3, 14, 2]} position={[-16, 7, 0]}>
         <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
       </pointLight>
 
       {/********** Back Wall ************/}
-      <StagePlane rotation-x={0} position={[0, 15, -11]} size={[80, 50]} />
+      {/* <StagePlane rotation-x={0} position={[0, 15, -11]} size={[80, 50]} /> */}
 
       {/********** Left Wall ************/}
-      <StagePlane
+      {/* <StagePlane
         rotation-x={0}
         rotation-y={Math.PI * 0.5}
         position={[-39, 15, 20]}
         size={[80, 30]}
-      />
+      /> */}
 
       {/********** Right Wall ************/}
-      <StagePlane
+      {/* <StagePlane
         rotation-x={0}
         rotation-y={Math.PI * -0.5}
         position={[39, 15, 20]}
         size={[80, 30]}
-      />
+      /> */}
 
       {/********** Floor ************/}
-      <StagePlane position={[0, 0, 24]} size={[80, 70]} />
+      <StagePlane position={[0, 0, 0]} size={[200, 150]} />
 
       {/********** Piano ************/}
       <Piano />

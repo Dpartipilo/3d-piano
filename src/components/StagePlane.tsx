@@ -10,54 +10,54 @@ type StagePlaneProps = {
 
 export const StagePlane = (props: StagePlaneProps) => {
   const { position, size } = props;
-  const [colorMap, displacementMap, normalMap, roughnessMap, aoMap] = useLoader(
-    TextureLoader,
-    [
-      "textures/wood-floor/Wood_basecolor.jpg",
-      "textures/wood-floor/Wood_height.png",
-      "textures/wood-floor/Wood_normal.jpg",
-      "textures/wood-floor/Wood_roughness.jpg",
-      "textures/wood-floor/Wood_ambientOcclusion.jpg",
-    ]
-  );
+  // const [colorMap, displacementMap, normalMap, roughnessMap, aoMap] = useLoader(
+  //   TextureLoader,
+  //   [
+  //     "textures/wood-floor/Wood_basecolor.jpg",
+  //     "textures/wood-floor/Wood_height.png",
+  //     "textures/wood-floor/Wood_normal.jpg",
+  //     "textures/wood-floor/Wood_roughness.jpg",
+  //     "textures/wood-floor/Wood_ambientOcclusion.jpg",
+  //   ]
+  // );
 
   //Texture config
 
-  colorMap.repeat.set(4, 4);
-  normalMap.repeat.set(4, 4);
-  roughnessMap.repeat.set(4, 4);
-  aoMap.repeat.set(4, 4);
+  // colorMap.repeat.set(4, 4);
+  // normalMap.repeat.set(4, 4);
+  // roughnessMap.repeat.set(4, 4);
+  // aoMap.repeat.set(4, 4);
 
-  colorMap.wrapS = THREE.RepeatWrapping;
-  normalMap.wrapS = THREE.RepeatWrapping;
-  roughnessMap.wrapS = THREE.RepeatWrapping;
-  aoMap.wrapS = THREE.RepeatWrapping;
+  // colorMap.wrapS = THREE.RepeatWrapping;
+  // normalMap.wrapS = THREE.RepeatWrapping;
+  // roughnessMap.wrapS = THREE.RepeatWrapping;
+  // aoMap.wrapS = THREE.RepeatWrapping;
 
-  colorMap.wrapT = THREE.RepeatWrapping;
-  normalMap.wrapT = THREE.RepeatWrapping;
-  roughnessMap.wrapT = THREE.RepeatWrapping;
-  aoMap.wrapT = THREE.RepeatWrapping;
+  // colorMap.wrapT = THREE.RepeatWrapping;
+  // normalMap.wrapT = THREE.RepeatWrapping;
+  // roughnessMap.wrapT = THREE.RepeatWrapping;
+  // aoMap.wrapT = THREE.RepeatWrapping;
 
-  const meshRef = useRef<THREE.Mesh>(null!);
+  // const meshRef = useRef<THREE.Mesh>(null!);
 
   return (
     <mesh
       rotation-x={-0.5 * Math.PI}
       {...props}
       receiveShadow
-      ref={meshRef}
+      // ref={meshRef}
       position={position}
     >
       <planeGeometry args={size} />
       <meshStandardMaterial
-        color={"#a1958d"}
-        map={colorMap}
-        displacementScale={0.2}
-        displacementMap={displacementMap}
-        normalMap={normalMap}
-        roughnessMap={roughnessMap}
-        aoMap={aoMap}
-        roughness={1.4}
+        color={"#ebe8e8"}
+        // map={colorMap}
+        // displacementScale={0.2}
+        // displacementMap={displacementMap}
+        // normalMap={normalMap}
+        // roughnessMap={roughnessMap}
+        // aoMap={aoMap}
+        roughness={1}
       />
     </mesh>
   );

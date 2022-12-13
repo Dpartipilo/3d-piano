@@ -39,6 +39,7 @@ export const Piano = (props: GroupProps) => {
               size={size}
               pianoColor={color}
               lightColor={lightColor}
+              castShadow
             />
             <KeyboardControls
               map={[
