@@ -1,4 +1,4 @@
-import * as THREE from "three";
+// import * as THREE from "three";
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import "./App.css";
@@ -12,7 +12,7 @@ const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 function App() {
   return (
     <div className="App">
-      <Leva collapsed />
+      <Leva titleBar={false} />
       <Canvas
         shadows
         camera={{
@@ -21,10 +21,10 @@ function App() {
           fov: 45,
           far: 750,
         }}
-        onCreated={({ scene }) => {
-          scene.background = new THREE.Color("black");
-        }}
       >
+        <color attach="background" args={["#f0f0f0"]} />
+        <fog attach="fog" args={["black", 15, 150]} />
+
         {/********** Scene ************/}
         <Suspense fallback={null}>
           <Scene />

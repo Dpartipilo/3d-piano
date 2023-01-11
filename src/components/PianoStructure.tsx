@@ -8,7 +8,7 @@ import {
   Color,
   useFrame,
 } from "@react-three/fiber";
-import { Logo } from "./Logo";
+// import { Logo } from "./Logo";
 import { PowerButton } from "./PowerButton";
 import { LevelDial } from "./LevelDial/LevelDial";
 import { ControlsArea } from "./ControlsArea";
@@ -56,6 +56,7 @@ const PianoBlock = ({
 export const PianoStructure = (props: PianoStructureProps) => {
   const { pianoColor, lightColor = "red", size } = props;
   const [onControls, setOnControls] = useState(false);
+  // const [onScreen, setOnScreen] = useState(false);
   const {
     setSoundGain,
     setSoundAttack,
@@ -63,6 +64,42 @@ export const PianoStructure = (props: PianoStructureProps) => {
     setSoundSustain,
     setSoundRealease,
   } = useContext(PianoContext);
+
+  // const vec = new THREE.Vector3();
+  // const screenView = new THREE.Vector3(-2, 16, 3);
+  // const defaultView = new THREE.Vector3(0, 30, 20);
+  // useFrame(({ camera, mouse, clock }) => {
+  //   if (onControls) {
+  //     camera.lookAt(5, 0, 0);
+  //     camera.position.lerp(vec.set(5, 16, 3), 0.06);
+  //     // camera.position.x = THREE.MathUtils.lerp(camera.position.x, 5, 0.08);
+  //     // camera.position.y = THREE.MathUtils.lerp(camera.position.y, 16, 0.08);
+  //     // camera.position.z = THREE.MathUtils.lerp(camera.position.z, 3, 0.08);
+  //   }
+  //   // else if (onScreen) {
+  //   //   camera.lookAt(-2, 0, 0);
+  //   //   camera.position.lerp(screenView, 0.06);
+  //   //   // camera.position.x = THREE.MathUtils.lerp(camera.position.x, -2, 0.08);
+  //   //   // camera.position.y = THREE.MathUtils.lerp(camera.position.y, 16, 0.08);
+  //   //   // camera.position.z = THREE.MathUtils.lerp(camera.position.z, 3, 0.08);
+  //   // }
+  //   else {
+  //     if (isMobile) return;
+
+  //     camera.rotation.x = THREE.MathUtils.lerp(
+  //       camera.rotation.x,
+  //       mouse.y / 2,
+  //       0.5
+  //     );
+  //     // camera.position.lerp(defaultView, 0.055);
+  //     camera.position.x = THREE.MathUtils.lerp(camera.position.x, mouse.x, 0.2);
+  //     camera.position.y = THREE.MathUtils.lerp(53, mouse.y * 2, 0.5);
+  //     camera.position.z = THREE.MathUtils.lerp(40, mouse.y * 18, 0.6);
+  //     camera.lookAt(0, 0, 0);
+  //   }
+
+  //   return null;
+  // });
 
   useFrame(({ camera, mouse }) => {
     if (onControls) {
@@ -101,7 +138,7 @@ export const PianoStructure = (props: PianoStructureProps) => {
         material={{ color: pianoColor, roughness: 0.4, reflectivity: 0.3 }}
       >
         <group position={[0, 6.3, 0]} name="Top Piano Toolbar">
-          <Logo position={[0.45, 0.04, -0.5]} />
+          {/* <Logo position={[0.45, 0.04, -0.5]} /> */}
           <PowerButton position={[size - 1.5, 0, -0.2]} />
           <group>
             <ControlsArea
@@ -110,11 +147,16 @@ export const PianoStructure = (props: PianoStructureProps) => {
               onPointerMissed={() => setOnControls(false)}
             />
 
-            <Screen pianoColor={pianoColor} position={[10.5, -0.7, -0.6]} />
-            <ScreenControls
-              lightColor={lightColor}
-              position={[7.82, -0.02, 0.65]}
-            />
+            <group
+            // onPointerEnter={() => setOnScreen(true)}
+            // onPointerLeave={() => setOnScreen(false)}
+            >
+              <Screen pianoColor={pianoColor} position={[10.5, -0.7, -0.6]} />
+              <ScreenControls
+                lightColor={lightColor}
+                position={[7.82, -0.02, 0.65]}
+              />
+            </group>
 
             <LevelDial
               lightColor={lightColor}
